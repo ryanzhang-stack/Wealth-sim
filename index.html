@@ -3,8 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
     <title>人生估值沙盘推演 | Khalid在路上</title>
-    <meta name="description" content="基于动态薪资增长与复利效应的资产推演工具，量化财务情况，助力财务自由。">
+    <meta name="description" content="拒绝线性思维，开启上帝视角。用北大金融模型，推演你未来的无限可能。">
+    <meta name="keywords" content="复利计算器, 财富自由, 薪资规划, 职业选择, FIRE, 搞钱">
+    
+    <meta property="og:title" content="人生估值沙盘推演 | Khalid在路上">
+    <meta property="og:description" content="算算你的Offer潜力，看看还要多少年财富自由？用金融思维解构你的人生。">
+    <meta property="og:image" content=""> 
+    <meta property="og:url" content="https://fire-sandbox.netlify.app/">
+    <meta property="og:type" content="website">
+
     <script src="https://cdn.bootcdn.net/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <style>
         :root {
@@ -204,22 +213,20 @@
         }
         .btn-calc:active { transform: scale(0.98); box-shadow: 0 4px 10px -2px rgba(139, 92, 246, 0.4); }
 
-        /* 🔥 修正后的结果面板：去蓝光、更通透 */
         .result-panel { 
-            background: linear-gradient(135deg, #7c3aed 0%, #9333ea 100%); /* 修正：极光紫渐变，去蓝 */
+            background: linear-gradient(135deg, #7c3aed 0%, #9333ea 100%); 
             color: white; padding: 25px; 
             border-radius: 20px; margin-top: 30px; 
             display: flex; justify-content: space-between; align-items: flex-start;
             position: relative; overflow: hidden;
             box-shadow: 0 10px 25px -5px rgba(124, 58, 237, 0.4);
         }
-        /* 删除了 ::before 蒙版，去除雾感 */
         
         .result-item { text-align: center; flex: 1; display: flex; flex-direction: column; align-items: center; z-index: 1; }
         .result-item label { color: rgba(255,255,255,0.85); margin-bottom: 8px; font-size: 13px; letter-spacing: 0.5px; }
         .result-item .value { font-size: 28px; font-weight: 800; line-height: 1.1; text-shadow: 0 2px 4px rgba(0,0,0,0.1); }
         .real-val-group { display: flex; flex-direction: column; align-items: center; width: 100%; }
-        .green-text { color: #dcfce7; /* 修正：更亮的薄荷绿，防止在紫色上看不清 */ }
+        .green-text { color: #dcfce7; }
 
         .cpi-control-box {
             background: rgba(255,255,255,0.2); border-radius: 20px; padding: 4px;
@@ -230,7 +237,6 @@
             font-size: 11px; padding: 5px 10px; cursor: pointer; border-radius: 16px;
             transition: all 0.2s; font-weight: 600;
         }
-        /* 修正：CPI 选中态改为白色半透明，更高级 */
         .cpi-btn.active.low, .cpi-btn.active.med, .cpi-btn.active.high { 
             background: rgba(255,255,255,0.9); color: #7c3aed; 
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -291,12 +297,12 @@
         }
         .btn-share-hero:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.2); }
 
-        /* 🔥🔥 新增：V41.0 "博主名片" 推广卡片 */
+        /* 🔥 V41.0 "博主名片" 推广卡片 */
         .xhs-promo-card {
             margin-top: 40px; padding: 20px; 
             background: #ffffff;
             border-radius: 20px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05); /* 柔和阴影 */
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
             border: 1px solid rgba(0, 0, 0, 0.03);
             text-align: center; position: relative; overflow: hidden;
             display: flex; flex-direction: column; align-items: center;
