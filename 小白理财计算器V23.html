@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>财富自由推演沙盘 | Khalid在路上</title>
+    <meta name="description" content="基于动态薪资增长与复利效应的资产推演工具，量化财务情况，助力财务自由。">
+    <script src="https://cdn.bootcdn.net/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        :root {
+            /* V21.0 生活家配色 */
+            --primary-color: #8b5cf6;
+            --primary-dark: #7c3aed;
+            --accent-color: #f43f5e;
+            --text-main: #1f2937;
+            --text-light: #6b7280;
+            --bg-gradient: linear-gradient(180deg, #fdf4ff 0%, #ffffff 100%);
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --btn-gradient: linear-gradient(135deg, #8b5cf6 0%, #d946ef 100%);
+            --shadow-soft: 0 10px 40px -10px rgba(139, 92, 246, 0.15);
+            
+            /* 状态色 */
+            --input-bg: #f8fafc;
+            --input-border: #e2e8f0;
+            --input-tag-bg: #e0e7ff;
+            --input-tag-text: #4338ca;
+            
+            --result-bg: #fff1f2;         
+            --result-border: #f43f5e;     
+            --result-text: #be123c;       
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: var(--bg-gradient); color: var(--text-main); margin: 0; padding: 20px 15px;
+            display: flex; flex-direction: column; align-items: center; min-height: 100vh;
+        }
+
+        .container {
+            background: var(--card-bg); width: 100%; max-width: 800px; padding: 30px 25px;
+            border-radius: 24px; box-shadow: var(--shadow-soft); margin-bottom: 30px;
+            backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.8); transition: all 0.3s ease;
+        }
+        
+        /* 头部 */
+        .intro-box { text-align: center; margin-bottom: 25px; }
+        .emoji-header { font-size: 40px; margin-bottom: 10px; display: block; animation: float 3s ease-in-out infinite; }
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
+        
+        h1 { 
+            font-size: 22px; margin: 0 0 10px 0; color: #4c1d95; font-weight: 800; 
+            background: -webkit-linear-gradient(45deg, #8b5cf6, #f43f5e);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .intro-text { font-size: 13px; color: var(--text-light); line-height: 1.6; max-width: 90%; margin: 0 auto; }
+
+        .guide-box {
+            background: #f5f3ff; border-radius: 16px; padding: 15px; margin-bottom: 25px;
+            display: flex; justify-content: space-between; align-items: center; border: 1px solid #e9d5ff;
+        }
+        .guide-step { display: flex; flex-direction: column; align-items: center; gap: 6px; flex: 1; text-align: center; }
+        .guide-icon { font-size: 20px; background: white; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .guide-text { font-size: 11px; color: #5b21b6; font-weight: 600; }
+        .guide-line { width: 30px; height: 2px; background: #ddd6fe; border-radius: 2px; }
+
+        .header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .section-label { font-size: 15px; font-weight: 700; color: #4b5563; display: flex; align-items: center; gap: 6px; }
+        
+        .mode-switch {
+            position: relative; width: 140px; height: 40px; background: #f3f4f6;
+            border-radius: 20px; display: flex; align-items: center; padding: 4px;
+            cursor: pointer; user-select: none; box-sizing: border-box;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .switch-slider {
+            position: absolute; left: 4px; top: 4px; width: 66px; height: 32px;
+            background: white; border-radius: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 1;
+        }
+        .mode-label {
+            flex: 1; text-align: center; font-size: 12px; font-weight: 700; color: #9ca3af;
+            z-index: 2; transition: color 0.3s; line-height: 32px;
+        }
+        .container.pro-mode .switch-slider { transform: translateX(66px); background: linear-gradient(135deg, #8b5cf6, #a78bfa); }
+        .container.pro-mode .mode-label.pro-text { color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.2); }
+        .container.pro-mode .mode-switch { background: #ede9fe; }
+        .container.pro-mode { border-top: 4px solid #8b5cf6; }
+
+        /* Tabs */
+        .tabs { display: flex; margin-bottom: 25px; background: #f9fafb; border-radius: 16px; padding: 5px; gap: 5px; border: 1px solid #f3f4f6; }
+        .tab { 
+            flex: 1; text-align: center; padding: 8px 4px; cursor: pointer; border-radius: 12px; 
+            transition: all 0.2s; color: #6b7280; display: flex; flex-direction: column; justify-content: center; align-items: center;
+        }
+        .tab-title { font-size: 13px; font-weight: 700; line-height: 1.2; }
+        .tab-desc { font-size: 9px; font-weight: 400; opacity: 0.8; margin-top: 2px; transform: scale(0.95); white-space: nowrap; }
+        
+        .tab.active { background: white; color: var(--primary-color); box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
+        .container.pro-mode .tab.active { color: #7c3aed; }
+
+        .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
+        @media (max-width: 700px) { .main-grid { grid-template-columns: 1fr; gap: 20px; } }
+        
+        .section-title { 
+            font-size: 13px; font-weight: 700; color: #6b7280; margin-bottom: 15px; 
+            border-bottom: 2px solid #f3f4f6; padding-bottom: 8px; display: flex; justify-content: space-between; 
+        }
+        
+        /* 基础表单样式 */
+        .form-group { 
+            margin-bottom: 15px; border-radius: 14px; 
+            padding: 8px; border: 2px solid transparent; 
+            transition: all 0.2s ease;
+        }
+        label { display: flex; align-items: center; justify-content: space-between; font-size: 13px; color: #4b5563; margin-bottom: 6px; font-weight: 600; }
+        
+        /* 1. 蓝色：需要输入 */
+        .form-group.input-needed label::after {
+            content: "✎ 请输入"; font-size: 9px; background: var(--input-tag-bg); color: var(--input-tag-text);
+            padding: 2px 6px; border-radius: 6px; font-weight: 600;
+        }
+
+        /* 2. 粉色：待计算结果 (强力统一) */
+        .form-group.target-highlight {
+            background-color: var(--result-bg) !important;
+            border-color: var(--result-border) !important;
+            box-shadow: 0 4px 15px rgba(244, 63, 94, 0.15) !important;
+            animation: breathe 3s infinite ease-in-out;
+        }
+        @keyframes breathe { 
+            0%, 100% { box-shadow: 0 2px 5px rgba(244, 63, 94, 0.1); border-color: rgba(244, 63, 94, 0.5); } 
+            50% { box-shadow: 0 6px 15px rgba(244, 63, 94, 0.25); border-color: rgba(244, 63, 94, 1); } 
+        }
+
+        .form-group.target-highlight label { color: var(--result-text) !important; }
+        .form-group.target-highlight label::after {
+            content: "✨ 智能计算"; font-size: 10px; background: white; color: var(--result-text);
+            padding: 2px 8px; border-radius: 10px; font-weight: 800; border: 1px solid #fecdd3;
+        }
+
+        /* 输入框基础 */
+        input {
+            width: 100%; padding: 12px; border: 2px solid #f3f4f6; border-radius: 12px; font-size: 15px;
+            box-sizing: border-box; transition: all 0.2s; font-family: monospace; background: var(--input-bg);
+            color: #1f2937;
+        }
+        input:focus { outline: none; border-color: #a78bfa; background: white; box-shadow: 0 0 0 4px #ede9fe; }
+
+        /* 统一的高亮输入框样式 (!important 覆盖所有) */
+        .form-group.target-highlight input {
+            background-color: transparent !important;
+            border: none !important;
+            border-bottom: 2px dashed rgba(244, 63, 94, 0.3) !important;
+            border-radius: 0 !important;
+            color: var(--result-text) !important;
+            font-weight: 800 !important;
+            font-size: 20px !important; 
+            text-align: center !important;
+            box-shadow: none !important;
+            opacity: 1 !important;
+            -webkit-text-fill-color: var(--result-text) !important;
+            padding: 5px 0 !important;
+            cursor: default !important;
+        }
+        .form-group.target-highlight input::placeholder {
+            color: rgba(190, 18, 60, 0.4) !important; 
+            font-weight: 400 !important; 
+            font-size: 14px !important;
+            -webkit-text-fill-color: rgba(190, 18, 60, 0.4) !important;
+        }
+
+        /* 隐藏元素 */
+        .pro-only { display: none; }
+        .container.pro-mode .pro-only { display: block; animation: slideDown 0.4s ease; }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .growth-inputs { background: #fff1f2; padding: 15px; border-radius: 16px; border: 1px solid #ffe4e6; margin-bottom: 15px; }
+        .container.pro-mode .growth-inputs { background: #f5f3ff; border-color: #ddd6fe; }
+        
+        .event-row { display: flex; gap: 8px; margin-bottom: 10px; align-items: center; }
+        .btn-add { 
+            background: white; border: 2px dashed #d1d5db; color: #6b7280; width: 100%; padding: 10px; 
+            border-radius: 12px; cursor: pointer; font-size: 12px; font-weight: 600; transition: all 0.2s;
+        }
+        .btn-add:hover { border-color: var(--primary-color); color: var(--primary-color); background: #f5f3ff; }
+        .btn-del { border:none; background:white; color:#ef4444; width:24px; height:24px; border-radius:50%; box-shadow:0 2px 4px rgba(0,0,0,0.1); cursor:pointer; display:flex; align-items:center; justify-content:center; }
+
+        .btn-calc { 
+            width: 100%; background: var(--btn-gradient); color: white; padding: 16px; border: none; 
+            border-radius: 16px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 15px; 
+            box-shadow: 0 8px 20px -5px rgba(139, 92, 246, 0.4);
+            transition: transform 0.1s, box-shadow 0.2s; 
+        }
+        .btn-calc:active { transform: scale(0.98); box-shadow: 0 4px 10px -2px rgba(139, 92, 246, 0.4); }
+
+        .result-panel { 
+            background: linear-gradient(135deg, #8b5cf6, #6366f1); color: white; padding: 25px; 
+            border-radius: 20px; margin-top: 30px; 
+            display: flex; justify-content: space-between; align-items: flex-start;
+            position: relative; overflow: hidden;
+            box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.4);
+        }
+        .result-panel::before {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 60%);
+            transform: rotate(30deg); pointer-events: none;
+        }
+        .result-item { text-align: center; flex: 1; display: flex; flex-direction: column; align-items: center; z-index: 1; }
+        .result-item label { color: rgba(255,255,255,0.8); margin-bottom: 8px; font-size: 12px; letter-spacing: 0.5px; }
+        .result-item .value { font-size: 26px; font-weight: 800; line-height: 1.1; text-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .real-val-group { display: flex; flex-direction: column; align-items: center; width: 100%; }
+        .green-text { color: #a7f3d0; }
+
+        .cpi-control-box {
+            background: rgba(255,255,255,0.15); border-radius: 20px; padding: 3px;
+            display: flex; margin-top: 10px; width: fit-content; backdrop-filter: blur(4px);
+        }
+        .cpi-btn {
+            background: transparent; border: none; color: rgba(255,255,255,0.7);
+            font-size: 10px; padding: 5px 10px; cursor: pointer; border-radius: 16px;
+            transition: all 0.2s; font-weight: 600;
+        }
+        .cpi-btn.active.low { background: #d1fae5; color: #065f46; }
+        .cpi-btn.active.med { background: #dbeafe; color: #1e40af; }
+        .cpi-btn.active.high { background: #fee2e2; color: #991b1b; }
+
+        .achievement-box {
+            background: #fffbeb; border: 1px solid #fcd34d; border-left: 4px solid #f59e0b;
+            padding: 20px; margin-top: 25px; border-radius: 12px; display: none;
+            position: relative; overflow: hidden;
+        }
+        .achievement-box::after { content: '🏆'; position: absolute; right: -10px; bottom: -10px; font-size: 80px; opacity: 0.1; transform: rotate(-20deg); }
+        .achievement-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+        .achievement-badge { background: #f59e0b; color: white; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 12px; }
+        .achievement-title { font-size: 18px; font-weight: 800; color: #92400e; }
+        .achievement-text { font-size: 14px; color: #b45309; line-height: 1.6; }
+        
+        .chart-box { margin-top: 30px; height: 280px; position: relative; }
+
+        .glossary-box {
+            margin-top: 30px; padding-top: 25px; border-top: 1px dashed #e5e7eb;
+        }
+        .glossary-title { font-size: 14px; font-weight: 700; color: #374151; margin-bottom: 15px; display: flex; align-items: center; gap: 6px; }
+        .glossary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        @media (max-width: 600px) { .glossary-grid { grid-template-columns: 1fr; gap: 15px; } }
+        .glossary-item { font-size: 12px; color: #6b7280; line-height: 1.5; background: #f9fafb; padding: 10px; border-radius: 10px; }
+        .glossary-item b { color: var(--primary-dark); display: block; margin-bottom: 2px; }
+        .ref-val { color: #f43f5e; font-size: 11px; display: block; margin-top: 4px; font-weight: 500; }
+
+        .action-bar { margin-top: 30px; display: flex; justify-content: center; gap: 15px; }
+        .btn-reset { 
+            background: white; border: 1px solid #e5e7eb; color: #94a3b8; 
+            font-size: 13px; padding: 12px 24px; border-radius: 24px; cursor: pointer; transition: all 0.2s;
+        }
+        .btn-reset:hover { border-color: #f43f5e; color: #f43f5e; }
+        
+        .btn-share-hero {
+            background: #1f2937; color: white; border: none; font-size: 13px; font-weight: 600;
+            padding: 12px 24px; border-radius: 24px; cursor: pointer; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 6px;
+            transition: transform 0.2s;
+        }
+        .btn-share-hero:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.2); }
+
+        .footer { text-align: center; font-size: 12px; color: #9ca3af; margin-top: 40px; line-height: 1.8; padding-bottom: 40px; }
+        .footer a { color: var(--primary-color); text-decoration: none; border-bottom: 1px dashed #cbd5e1; padding-bottom: 2px; }
+        
+        #lite-placeholder { text-align: center; color: #d1d5db; font-size: 13px; padding: 30px; border: 2px dashed #e5e7eb; border-radius: 16px; height: 100%; display: flex; align-items: center; justify-content: center; flex-direction: column; background: #f9fafb; }
+    </style>
+</head>
+<body>
+
+<div class="container" id="appContainer">
+    <div class="intro-box">
+        <span class="emoji-header">🔮</span>
+        <h1>财富自由推演沙盘</h1>
+        <p class="intro-text">拒绝线性思维，开启上帝视角。<br>用理性金融模型，推演你未来的无限可能。</p>
+    </div>
+    
+    <div class="guide-box">
+        <div class="guide-step">
+            <div class="guide-icon">🎯</div>
+            <div class="guide-text">设定目标</div>
+        </div>
+        <div class="guide-line"></div>
+        <div class="guide-step">
+            <div class="guide-icon">📝</div>
+            <div class="guide-text">输入薪资</div>
+        </div>
+        <div class="guide-line"></div>
+        <div class="guide-step">
+            <div class="guide-icon">🔓</div>
+            <div class="guide-text">解锁成就</div>
+        </div>
+    </div>
+
+    <div class="header-row">
+        <span class="section-label">✨ 推演模式</span>
+        <div class="mode-switch" onclick="toggleMode()">
+            <div class="switch-slider"></div>
+            <div class="mode-label">小白模式</div>
+            <div class="mode-label pro-text">Pro 专家</div>
+        </div>
+    </div>
+
+    <div class="tabs">
+        <div class="tab active" data-target="fv" onclick="switchTab('fv')">
+            <span class="tab-title">算存款</span>
+            <span class="tab-desc">未来有多少钱</span>
+        </div>
+        <div class="tab" data-target="pmt" onclick="switchTab('pmt')">
+            <span class="tab-title">算投入</span>
+            <span class="tab-desc">每月要存多少</span>
+        </div>
+        <div class="tab" data-target="pv" onclick="switchTab('pv')">
+            <span class="tab-title">算本金</span>
+            <span class="tab-desc">现在要有几万</span>
+        </div>
+        <div class="tab" data-target="years" onclick="switchTab('years')">
+            <span class="tab-title">算时间</span>
+            <span class="tab-desc">还要奋斗多久</span>
+        </div>
+    </div>
+
+    <div class="main-grid">
+        <div>
+            <div class="section-title">📊 基础参数</div>
+            <div class="form-group" id="grp_pv"><label>💰 现有资金 (本金)</label><input type="number" id="pv" placeholder="100000"></div>
+            <div class="form-group" id="grp_fv"><label>🏁 目标金额</label><input type="number" id="target_fv" placeholder="20000000"></div>
+            
+            <div id="simple_pmt_box" class="form-group" id="grp_simple_pmt"><label>📥 每月能存多少钱</label><input type="number" id="simple_pmt" placeholder="2000"></div>
+            
+            <div id="pro_cashflow_box" style="display:none;">
+                <div class="form-group"><label style="color:var(--primary-color)">💵 月收入 (税后)</label><input type="number" id="income" placeholder="3000"></div>
+                <div class="form-group"><label style="color:var(--accent-color)">💸 月支出 (开销)</label><input type="number" id="expense" placeholder="1000"></div>
+            </div>
+            
+            <div class="form-group" id="grp_solved_pmt" style="display:none;">
+                <label>👉 建议每月存入</label>
+                <input type="text" id="solved_pmt" value="✨ 待计算..." disabled>
+            </div>
+
+            <div class="form-group"><label>📈 年化理财收益 (%)</label><input type="number" id="rate" placeholder="5"></div>
+            <div class="form-group" id="grp_years"><label>⏳ 奋斗时长 (年)</label><input type="number" id="years" placeholder="15"></div>
+        </div>
+
+        <div class="pro-only">
+            <div class="section-title">🚀 动态增长 (Pro)</div>
+            <div class="growth-inputs">
+                <div class="form-group"><label style="color:var(--primary-color)">🚀 工资年涨幅 (%)</label><input type="number" id="inc_growth" placeholder="10"></div>
+                <div class="form-group"><label style="color:var(--accent-color)">🥬 开销涨幅 (%)</label><input type="number" id="exp_growth" placeholder="3"></div>
+            </div>
+            <div class="section-title">🚩 人生大额收支</div>
+            <div id="eventContainer" class="event-list"></div>
+            <button class="btn-add" onclick="addEventRow()">+ 添加节点 (如: 购车/礼物/副业)</button>
+        </div>
+        
+        <div id="lite-placeholder">
+            <div style="font-size:40px; margin-bottom:15px; opacity:0.5;">🦄</div>
+            <div style="font-weight:600; color:#9ca3af;">开启 Pro 模式</div>
+            <div style="font-size:12px; margin-top:5px;">解锁工资涨幅与人生事件模拟</div>
+        </div>
+    </div>
+
+    <button class="btn-calc" onclick="runCalculation()">开始推演未来</button>
+
+    <div class="result-panel">
+        <div class="result-item">
+            <label id="resLabel1">期末名义资产</label>
+            <div class="value" id="resValue1">--</div>
+        </div>
+        <div class="result-item" style="border-left:1px solid rgba(255,255,255,0.2)">
+            <label id="resLabel2" style="color:#a7f3d0">实际购买力 (折现)</label>
+            <div class="real-val-group">
+                <div class="value green-text" id="resValue2">--</div>
+                <div class="cpi-control-box">
+                    <button class="cpi-btn low active" id="cpiLow" onclick="setCPI(0.5, 'low')">低0.5%</button>
+                    <button class="cpi-btn med" id="cpiMed" onclick="setCPI(2.5, 'med')">中2.5%</button>
+                    <button class="cpi-btn high" id="cpiHigh" onclick="setCPI(5.0, 'high')">高5.0%</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="achievement-box" id="achievementBox">
+        <div class="achievement-header"><div class="achievement-badge">🏆 解锁成就</div><div class="achievement-title" id="achTitle">--</div></div>
+        <div class="achievement-text" id="achText">请进行计算...</div>
+    </div>
+
+    <div class="chart-box"><canvas id="simChart"></canvas></div>
+    
+    <div class="glossary-box">
+        <div class="glossary-title">📖 指标含义与参考</div>
+        <div class="glossary-grid">
+            <div class="glossary-item">
+                <b>年化收益 (%)</b>理财产品的平均年回报率。
+                <span class="ref-val">参考: 余额宝~1-2%, 债券基金~2-4%</span>
+            </div>
+            <div class="glossary-item">
+                <b>工资年涨幅 (%)</b>Pro模式下，每年薪资增长的速度。
+                <span class="ref-val">参考: 职场初期~10-20%, 稳定期~3-5%</span>
+            </div>
+            <div class="glossary-item">
+                <b>开销涨幅 (%)</b>生活成本提升速度 (含通胀+消费升级)。
+                <span class="ref-val">参考: 3% (保守), 5% (高通胀)</span>
+            </div>
+            <div class="glossary-item">
+                <b>实际购买力</b>扣除通胀后，这笔钱相当于今天的价值。
+                <span class="ref-val">逻辑: 避免"货币幻觉"，反映真实生活水平</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="action-bar">
+        <button class="btn-reset" onclick="clearData()">🗑️ 重置</button>
+        <button class="btn-share-hero" onclick="copyReport()">📋 复制详细成就战报</button>
+    </div>
+</div>
+
+<div class="footer">
+    <p>Designed by <b>Khalid在路上</b> | 一个脑洞很大的跨境金融从业者</p>
+    <p>关注小红书: <a href="https://www.xiaohongshu.com/user/profile/57d207127fc5b80a5ba8f181?xsec_token=ABV1YdZWooJGuigvNywrRlCN8Pu00zWLQwV21BWFv07Qk%3D&xsec_source=pc_search" target="_blank">Khalid在路上@小红书</a> 获取更多好玩的东西</p>
+    <div class="contact-info">
+        联系邮箱: <a href="mailto:ryan.zhang@pku.org.cn">ryan.zhang@pku.org.cn</a><br>
+        <span style="opacity:0.6;">声明：本工具结果仅供参考，不构成投资建议。</span>
+    </div>
+</div>
+
+<script>
+    let chartInstance = null;
+    let currentTab = 'fv';
+    let isProMode = false;
+    let currentCPI = 0.5; 
+    let currentCPILevel = 'low';
+    let lastResult = { val: 0, realVal: 0, years: 10, inputs: {}, achTitle: "", achText: "" };
+
+    const DEFAULTS = {
+        pv: 100000, target_fv: 20000000, simple_pmt: 2000,
+        income: 3000, expense: 1000, rate: 5, years: 15, inc_growth: 10, exp_growth: 3, cpi: 0.5
+    };
+
+    function safeGetEl(id) { return document.getElementById(id); }
+    function getVal(id, defKey) { 
+        const el = safeGetEl(id);
+        if(!el) return DEFAULTS[defKey];
+        return el.value === "" ? DEFAULTS[defKey] : parseFloat(el.value);
+    }
+    function getRawVal(id) { 
+        const el = safeGetEl(id);
+        if(!el) return DEFAULTS[id];
+        return el.value === "" ? DEFAULTS[id] : el.value;
+    }
+
+    window.onload = function() {
+        try { loadData(); } catch(e) { console.error(e); clearData(false); }
+    };
+
+    function setCPI(val, level) {
+        currentCPI = val;
+        currentCPILevel = level;
+        document.querySelectorAll('.cpi-btn').forEach(btn => btn.classList.remove('active'));
+        document.getElementById('cpi' + level.charAt(0).toUpperCase() + level.slice(1)).classList.add('active');
+        if (lastResult.val > 0 || lastResult.val < 0) { runCalculation(); }
+    }
+
+    function saveData() {
+        try {
+            const data = {
+                pv: safeGetEl('pv').value, target_fv: safeGetEl('target_fv').value,
+                simple_pmt: safeGetEl('simple_pmt').value, income: safeGetEl('income').value,
+                expense: safeGetEl('expense').value, rate: safeGetEl('rate').value,
+                years: safeGetEl('years').value, inc_growth: safeGetEl('inc_growth').value,
+                exp_growth: safeGetEl('exp_growth').value, isProMode: isProMode,
+                cpi: currentCPI, cpiLevel: currentCPILevel, events: []
+            };
+            const rows = document.querySelectorAll('.event-row');
+            rows.forEach(row => {
+                data.events.push({
+                    y: row.querySelector('.event-year').value,
+                    desc: row.querySelector('.event-desc').value,
+                    amt: row.querySelector('.event-amount').value
+                });
+            });
+            localStorage.setItem('wealth_sim_v32', JSON.stringify(data));
+        } catch(e) {}
+    }
+
+    function loadData() {
+        const saved = localStorage.getItem('wealth_sim_v32');
+        if (!saved) { updateUI(); return; }
+        
+        const data = JSON.parse(saved);
+        const fields = ['pv', 'target_fv', 'simple_pmt', 'income', 'expense', 'rate', 'years', 'inc_growth', 'exp_growth'];
+        fields.forEach(id => {
+            if(safeGetEl(id)) safeGetEl(id).value = data[id] || "";
+        });
+
+        if (data.isProMode) {
+            isProMode = true;
+            safeGetEl('appContainer').classList.add('pro-mode');
+            safeGetEl('lite-placeholder').style.display = 'none';
+        }
+        
+        if(data.cpi) {
+            currentCPI = data.cpi;
+            currentCPILevel = data.cpiLevel || 'low';
+            setCPI(currentCPI, currentCPILevel);
+        }
+        
+        if (data.events && data.events.length > 0) {
+            data.events.forEach(e => addEventRow(e.y, e.desc, e.amt));
+        }
+        updateUI();
+    }
+
+    function clearData(ask=true) {
+        if(ask && !confirm('确定要清空所有数据吗？')) return;
+        localStorage.removeItem('wealth_sim_v32');
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(i => i.value = "");
+        document.getElementById('eventContainer').innerHTML = "";
+        isProMode = false;
+        safeGetEl('appContainer').classList.remove('pro-mode');
+        setCPI(0.5, 'low');
+        updateUI();
+    }
+
+    function toggleMode() {
+        isProMode = !isProMode;
+        const container = safeGetEl('appContainer');
+        const ph = safeGetEl('lite-placeholder');
+        if (isProMode) { container.classList.add('pro-mode'); ph.style.display = 'none'; } 
+        else { container.classList.remove('pro-mode'); ph.style.display = 'flex'; }
+        updateUI(); saveData();
+    }
+
+    function switchTab(tab) {
+        currentTab = tab;
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelector(`.tab[data-target="${tab}"]`).classList.add('active');
+        updateUI();
+    }
+
+    // === 核心逻辑：动态类型转换 ===
+    function setAsTarget(el) {
+        // 1. 变成文本框，允许显示中文
+        el.type = 'text'; 
+        // 2. 清空值，显示“待计算”
+        el.value = '✨ 待计算...'; 
+        // 3. 禁用交互
+        el.disabled = true;
+        // 4. 添加高亮样式
+        el.closest('.form-group').classList.add('target-highlight');
+    }
+
+    function setAsInput(el, defaultVal) {
+        // 1. 恢复为数字框（移动端弹数字键盘）
+        el.type = 'number';
+        // 2. 启用交互
+        el.disabled = false;
+        // 3. 移除高亮
+        el.closest('.form-group').classList.remove('target-highlight');
+        // 4. 添加“请输入”提示
+        el.closest('.form-group').classList.add('input-needed');
+        
+        // 5. 智能回填：如果是“待计算”文字或空，填回默认值
+        if (el.value === '✨ 待计算...' || el.value === '') {
+            el.value = defaultVal; 
+        }
+    }
+
+    function updateUI() {
+        const els = {
+            pv: safeGetEl('pv'), 
+            fv: safeGetEl('target_fv'), 
+            years: safeGetEl('years'),
+            rate: safeGetEl('rate'),
+            simple: safeGetEl('simple_pmt_box'), 
+            pro: safeGetEl('pro_cashflow_box'),
+            res: safeGetEl('grp_solved_pmt')
+        };
+
+        // 1. 清理所有标记
+        document.querySelectorAll('.form-group').forEach(el => {
+            el.classList.remove('target-highlight', 'input-needed');
+        });
+
+        // 2. 模式切换可见性
+        if (currentTab === 'pmt') {
+            els.simple.style.display = 'none'; els.pro.style.display = 'none'; els.res.style.display = 'block';
+            // 算投入时，“建议存入”是目标
+            setAsTarget(safeGetEl('solved_pmt'));
+        } else {
+            els.res.style.display = 'none';
+            if (isProMode) { els.simple.style.display = 'none'; els.pro.style.display = 'block'; } 
+            else { els.simple.style.display = 'block'; els.pro.style.display = 'none'; }
+        }
+
+        // 3. 核心：根据 Tab 切换输入框身份
+        // 永远是 Input 的
+        setAsInput(els.rate, DEFAULTS.rate);
+
+        if (currentTab === 'fv') { 
+            setAsTarget(els.fv); // 目标是 FV
+            setAsInput(els.pv, DEFAULTS.pv);
+            setAsInput(els.years, DEFAULTS.years);
+        } 
+        else if (currentTab === 'pv') { 
+            setAsTarget(els.pv); // 目标是 PV
+            setAsInput(els.fv, DEFAULTS.target_fv);
+            setAsInput(els.years, DEFAULTS.years);
+        } 
+        else if (currentTab === 'years') { 
+            setAsTarget(els.years); // 目标是 Years
+            setAsInput(els.pv, DEFAULTS.pv);
+            setAsInput(els.fv, DEFAULTS.target_fv);
+        } 
+        else if (currentTab === 'pmt') {
+            // 算投入时，PV/FV/Years 都是输入
+            setAsInput(els.pv, DEFAULTS.pv);
+            setAsInput(els.fv, DEFAULTS.target_fv);
+            setAsInput(els.years, DEFAULTS.years);
+        }
+        
+        safeGetEl('achievementBox').style.display = 'none';
+    }
+
+    function addEventRow(y="", desc="", amt="") {
+        const div = document.createElement('div');
+        div.className = 'event-row';
+        div.innerHTML = `
+            <input type="number" class="event-year" placeholder="年" value="${y}" style="width:50px" onchange="saveData()">
+            <input type="text" class="event-desc" placeholder="收支说明" value="${desc}" style="flex:1" onchange="saveData()">
+            <input type="number" class="event-amount" placeholder="金额(+/-)" value="${amt}" style="flex:1" onchange="saveData()">
+            <button class="btn-del" onclick="this.parentElement.remove(); saveData()">×</button>
+        `;
+        safeGetEl('eventContainer').appendChild(div);
+    }
+
+    function simulate(p) {
+        let balance = p.pv;
+        let labels = ['Start'];
+        let dataNominal = [p.pv];
+        let dataReal = [p.pv];
+        
+        let curInc = p.income, curExp = p.expense;
+        let curNet = p.initNetPmt !== undefined ? p.initNetPmt : (curInc - curExp);
+
+        for (let y = 1; y <= p.years; y++) {
+            for (let m = 1; m <= 12; m++) {
+                balance = balance * (1 + p.rate/12) + curNet;
+            }
+            if (p.usePro && p.events[y]) balance += p.events[y];
+            if (p.usePro) {
+                if (p.isSimplePmtMode) curNet = curNet * (1 + p.incGrowth);
+                else {
+                    curInc = curInc * (1 + p.incGrowth);
+                    curExp = curExp * (1 + p.expGrowth);
+                    curNet = curInc - curExp;
+                }
+            }
+            let realValue = balance / Math.pow(1 + currentCPI/100, y);
+            labels.push(y + '年');
+            dataNominal.push(balance);
+            dataReal.push(realValue);
+        }
+        return { finalBalance: balance, finalReal: dataReal[dataReal.length-1], labels: labels, dataNominal: dataNominal, dataReal: dataReal };
+    }
+
+    function runCalculation() {
+        let events = {};
+        if (isProMode) {
+            document.querySelectorAll('.event-row').forEach(row => {
+                const y = parseInt(row.querySelector('.event-year').value);
+                const amt = parseFloat(row.querySelector('.event-amount').value);
+                if (y && !isNaN(amt)) {
+                    if (!events[y]) events[y] = 0;
+                    events[y] += amt;
+                }
+            });
+        }
+
+        const rate = getVal('rate', 'rate') / 100;
+        const incGrowth = getVal('inc_growth', 'inc_growth') / 100;
+        const expGrowth = getVal('exp_growth', 'exp_growth') / 100;
+
+        lastResult.inputs = {
+            pv: getRawVal('pv'), rate: getRawVal('rate'), years: getRawVal('years'),
+            pmt_desc: isProMode ? `收入${getRawVal('income')}/支出${getRawVal('expense')}` : `月存${getRawVal('simple_pmt')}`
+        };
+
+        if (currentTab === 'fv') {
+            const pv = getVal('pv', 'pv'); const years = getVal('years', 'years');
+            let income = 0, expense = 0, initNetPmt = 0;
+            if (isProMode) { income = getVal('income', 'income'); expense = getVal('expense', 'expense'); }
+            else { initNetPmt = getVal('simple_pmt', 'simple_pmt'); }
+
+            const res = simulate({
+                pv, rate, years, income, expense, initNetPmt: isProMode ? undefined : initNetPmt,
+                incGrowth, expGrowth, events, usePro: isProMode
+            });
+            // 修复：手动填回结果
+            safeGetEl('target_fv').value = parseInt(res.finalBalance).toLocaleString();
+            
+            showResult(res.finalBalance, res.finalReal, res.labels, res.dataNominal, res.dataReal, years, "期末总资产");
+            updateAchievement(res.finalReal, years, pv);
+        }
+        else if (currentTab === 'pmt') {
+            const pv = getVal('pv', 'pv'); const target = getVal('target_fv', 'target_fv'); const years = getVal('years', 'years');
+            let low = -10000000, high = 10000000, sol = 0;
+            for(let i=0; i<40; i++) {
+                let mid = (low + high) / 2;
+                let res = simulate({ pv, rate, years, initNetPmt: mid, incGrowth, expGrowth, events, usePro: isProMode, isSimplePmtMode: true });
+                if (res.finalBalance < target) low = mid; else high = mid; sol = mid;
+            }
+            // 修复：填回结果
+            safeGetEl('solved_pmt').value = Math.round(sol).toLocaleString();
+            lastResult.inputs.pmt_desc = `建议月存${Math.round(sol)}`;
+            const finalRes = simulate({ pv, rate, years, initNetPmt: sol, incGrowth, expGrowth, events, usePro: isProMode, isSimplePmtMode: true });
+            showResult(target, finalRes.finalReal, finalRes.labels, finalRes.dataNominal, finalRes.dataReal, years, "目标达成");
+            updateAchievement(finalRes.finalReal, years, pv);
+        }
+        else if (currentTab === 'pv') {
+            const target = getVal('target_fv', 'target_fv'); const years = getVal('years', 'years');
+            let income = 0, expense = 0, initNetPmt = 0;
+            if (isProMode) { income = getVal('income', 'income'); expense = getVal('expense', 'expense'); }
+            else { initNetPmt = getVal('simple_pmt', 'simple_pmt'); }
+            let low = -100000000, high = 100000000, sol = 0;
+            for(let i=0; i<40; i++) {
+                let mid = (low + high) / 2;
+                let res = simulate({ pv: mid, rate, years, income, expense, initNetPmt: isProMode ? undefined : initNetPmt, incGrowth, expGrowth, events, usePro: isProMode });
+                if (res.finalBalance < target) low = mid; else high = mid; sol = mid;
+            }
+            // 修复：填回结果
+            safeGetEl('pv').value = Math.round(sol).toLocaleString();
+            lastResult.inputs.pv = Math.round(sol);
+            const finalRes = simulate({ pv: sol, rate, years, income, expense, initNetPmt: isProMode ? undefined : initNetPmt, incGrowth, expGrowth, events, usePro: isProMode });
+            showResult(target, finalRes.finalReal, finalRes.labels, finalRes.dataNominal, finalRes.dataReal, years, "目标达成");
+            updateAchievement(finalRes.finalReal, years, sol);
+        }
+        else if (currentTab === 'years') {
+            const pv = getVal('pv', 'pv'); const target = getVal('target_fv', 'target_fv');
+            let income = 0, expense = 0, initNetPmt = 0;
+            if (isProMode) { income = getVal('income', 'income'); expense = getVal('expense', 'expense'); }
+            else { initNetPmt = getVal('simple_pmt', 'simple_pmt'); }
+            let y = 0, finalRes = null;
+            for(y=1; y<=100; y++) {
+                finalRes = simulate({ pv, rate, years: y, income, expense, initNetPmt: isProMode ? undefined : initNetPmt, incGrowth, expGrowth, events, usePro: isProMode });
+                if (finalRes.finalBalance >= target) break;
+            }
+            // 修复：填回结果
+            safeGetEl('years').value = y;
+            lastResult.inputs.years = y;
+            showResult(finalRes.finalBalance, finalRes.finalReal, finalRes.labels, finalRes.dataNominal, finalRes.dataReal, y, "最终达成");
+            updateAchievement(finalRes.finalReal, y, pv);
+        }
+        saveData();
+    }
+
+    function showResult(nominalVal, realVal, labels, dataNominal, dataReal, years, labelText) {
+        lastResult.val = nominalVal;
+        lastResult.realVal = realVal;
+        lastResult.years = years;
+        
+        safeGetEl('resLabel1').innerText = labelText;
+        safeGetEl('resValue1').innerText = parseInt(nominalVal).toLocaleString();
+        safeGetEl('resValue2').innerText = parseInt(realVal).toLocaleString();
+
+        try {
+            const ctx = safeGetEl('simChart').getContext('2d');
+            if (chartInstance) chartInstance.destroy();
+            const color = isProMode ? '#8b5cf6' : '#3b82f6';
+            const bgColor = isProMode ? 'rgba(139, 92, 246, 0.1)' : 'rgba(59, 130, 246, 0.1)';
+
+            chartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: '名义资产 (账面)', data: dataNominal,
+                            borderColor: color, backgroundColor: bgColor,
+                            borderWidth: 3, tension: 0.3, fill: true
+                        },
+                        {
+                            label: '实际购买力 (抗通胀)', data: dataReal,
+                            borderColor: '#10b981', borderDash: [5,5],
+                            borderWidth: 2, tension: 0.3, pointRadius: 0
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { display: true, position:'top', align:'end', labels:{boxWidth:10} } },
+                    scales: { 
+                        y: { ticks: { callback: function(value) { return (value/10000).toFixed(0) + '万'; } } },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+        } catch(e) {}
+    }
+
+    function updateAchievement(val, years) {
+        const box = safeGetEl('achievementBox');
+        box.style.display = 'block';
+        let title = "", text = "";
+
+        if (val < 0) {
+            title = "📉 潜力蛰伏期"; text = "暂时的现金流承压不代表终局。这正是审视财务结构的契机，建议优化大额支出，你拥有触底反弹的无限可能。";
+        } else if (val < 1000000) {
+            title = "🌱 积少成多"; text = "每一颗参天大树都始于微末。你已经战胜了消费主义，是长期主义的践行者。坚持下去，复利效应会在第7年左右爆发。";
+        } else if (val < 3000000) {
+            title = "⚓️ 人生压舱石"; text = "这笔资金是你应对不确定性的底气。在大部分城市已足够安居乐业，在一线城市也是坚实的起步。";
+        } else if (val < 5000000) {
+            title = "🚀 区域小康"; text = "你的资产已超越绝大多数同龄人。这不仅是一串数字，更是你从容应对生活风险的护城河。";
+        } else if (val < 10000000) {
+            title = "🏰 坚实中产"; text = "无论身处何地，你都拥有了极强的抗风险能力。在这个量级，请更多关注资产配置，让钱为你工作。";
+        } else if (val < 20000000) {
+            title = "💎 黄金自由"; text = "A8级资产！在一线城市属于优越阶层，在二三线城市已实现财务自由。被动收入可能已覆盖生活开支。";
+        } else if (val < 50000000) {
+            title = "🌟 战略级突破"; text = "你已拥有了对生活的“拒绝权”。现在的重点不再是积累，而是资产保值与家族传承。";
+        } else {
+            title = "🌌 星辰大海"; text = "小目标达成！在这个量级，金钱只是数字。你的决策将影响更多人的命运。";
+        }
+
+        safeGetEl('achTitle').innerText = title;
+        safeGetEl('achText').innerText = text;
+        lastResult.achTitle = title;
+        lastResult.achText = text;
+    }
+
+    function copyReport() {
+        if(!lastResult.val) { alert("请先点击【开始推演】"); return; }
+        
+        let report = `【🏆 财富自由推演战报】\n`;
+        report += `------------------------\n`;
+        report += `解锁成就：${lastResult.achTitle}\n`;
+        report += `成就解读：${lastResult.achText}\n`;
+        report += `------------------------\n`;
+        report += `🎯 名义资产: ${parseInt(lastResult.val).toLocaleString()} 元\n`;
+        report += `🟢 实际购买力: ${parseInt(lastResult.realVal).toLocaleString()} 元\n`;
+        report += `⏳ 历时: ${lastResult.years} 年\n`;
+        report += `💰 初始本金: ${lastResult.inputs.pv}\n`;
+        report += `📈 年化收益: ${lastResult.inputs.rate}% (通胀: ${currentCPI}%)\n`;
+        report += `📥 投入模式: ${lastResult.inputs.pmt_desc}\n`;
+        if(isProMode) report += `🚀 模式: Pro专家 (含动态增长/人生大额收支)\n`;
+        report += `\n(数据由 Khalid在路上@小红书 提供支持)\n`;
+        report += `联系邮箱: ryan.zhang@pku.org.cn`;
+
+        navigator.clipboard.writeText(report).then(() => {
+            alert("✅ 详细战报已复制！\n可直接粘贴分享给朋友。");
+        }).catch(err => {
+            const ta = document.createElement("textarea");
+            ta.value = report;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            alert("✅ 详细战报已复制！");
+        });
+    }
+</script>
+</body>
+</html>
