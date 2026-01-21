@@ -32,85 +32,86 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background: var(--bg-gradient); color: var(--text-main); margin: 0; padding: 20px 15px;
+            background: var(--bg-gradient); color: var(--text-main); margin: 0; padding: 15px 12px;
             display: flex; flex-direction: column; align-items: center; min-height: 100vh;
         }
 
         .container {
-            background: var(--card-bg); width: 100%; max-width: 800px; padding: 25px 20px;
-            border-radius: 24px; box-shadow: var(--shadow-soft); margin-bottom: 30px;
+            background: var(--card-bg); width: 100%; max-width: 800px; padding: 20px 18px;
+            border-radius: 24px; box-shadow: var(--shadow-soft); margin-bottom: 20px;
             backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.8); transition: all 0.3s ease;
         }
         
-        /* 头部优化 */
-        .intro-box { text-align: center; margin-bottom: 20px; }
-        .emoji-header { font-size: 40px; margin-bottom: 8px; display: block; animation: float 3s ease-in-out infinite; }
-        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-8px); } 100% { transform: translateY(0px); } }
+        .intro-box { text-align: center; margin-bottom: 15px; }
+        .emoji-header { font-size: 32px; margin-bottom: 4px; display: block; animation: float 3s ease-in-out infinite; }
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-6px); } 100% { transform: translateY(0px); } }
         
         h1 { 
-            font-size: 22px; margin: 0 0 15px 0; color: #4c1d95; font-weight: 800; 
+            font-size: 22px; margin: 0 0 12px 0; color: #4c1d95; font-weight: 800; 
             background: -webkit-linear-gradient(45deg, #8b5cf6, #f43f5e);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
-        /* ✨ 精致版 Intro 卡片 */
         .intro-grid {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px;
         }
         .intro-card {
             background: white; border: 1px solid rgba(139, 92, 246, 0.1);
-            border-radius: 12px; padding: 10px; text-align: left;
-            box-shadow: 0 2px 6px rgba(139, 92, 246, 0.03);
-            transition: transform 0.2s, box-shadow 0.2s;
+            border-radius: 10px; padding: 10px 8px; text-align: left;
+            box-shadow: 0 2px 4px rgba(139, 92, 246, 0.03);
         }
-        .intro-card:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(139, 92, 246, 0.1); }
         .ic-title { 
-            font-size: 11px; font-weight: 700; color: #7c3aed; margin-bottom: 4px; 
+            font-size: 13px; font-weight: 700; color: #7c3aed; margin-bottom: 3px; 
             display: flex; align-items: center; gap: 4px;
         }
-        .ic-text { font-size: 10px; color: #4b5563; line-height: 1.4; opacity: 0.9; }
+        .ic-text { font-size: 12px; color: #4b5563; line-height: 1.3; opacity: 0.9; }
 
         .guide-box {
-            background: #f5f3ff; border-radius: 14px; padding: 12px; margin-bottom: 20px;
+            background: #f5f3ff; border-radius: 12px; padding: 10px; margin-bottom: 10px;
             display: flex; justify-content: space-between; align-items: center; border: 1px solid #e9d5ff;
         }
         .guide-step { display: flex; flex-direction: column; align-items: center; gap: 4px; flex: 1; text-align: center; }
-        .guide-icon { font-size: 18px; background: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .guide-text { font-size: 10px; color: #5b21b6; font-weight: 600; }
-        .guide-line { width: 30px; height: 2px; background: #ddd6fe; border-radius: 2px; }
+        .guide-icon { font-size: 16px; background: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .guide-text { font-size: 11px; color: #5b21b6; font-weight: 700; }
+        .guide-line { width: 20px; height: 2px; background: #ddd6fe; border-radius: 2px; }
+
+        .scroll-hint {
+            text-align: center; margin-bottom: 15px; animation: bounce 2s infinite; opacity: 0.6;
+        }
+        .scroll-hint span { font-size: 20px; color: #8b5cf6; cursor: pointer; }
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-6px);} 60% {transform: translateY(-3px);} }
 
         .header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .section-label { font-size: 14px; font-weight: 700; color: #4b5563; display: flex; align-items: center; gap: 6px; }
+        .section-label { font-size: 15px; font-weight: 700; color: #4b5563; display: flex; align-items: center; gap: 6px; }
         
         .mode-switch {
-            position: relative; width: 130px; height: 36px; background: #f3f4f6;
-            border-radius: 18px; display: flex; align-items: center; padding: 3px;
+            position: relative; width: 140px; height: 40px; background: #f3f4f6;
+            border-radius: 20px; display: flex; align-items: center; padding: 4px;
             cursor: pointer; user-select: none; box-sizing: border-box;
             box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
         }
         .switch-slider {
-            position: absolute; left: 3px; top: 3px; width: 62px; height: 30px;
-            background: white; border-radius: 15px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1); transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: absolute; left: 4px; top: 4px; width: 66px; height: 32px;
+            background: white; border-radius: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
             z-index: 1;
         }
         .mode-label {
-            flex: 1; text-align: center; font-size: 12px; font-weight: 700; color: #9ca3af;
+            flex: 1; text-align: center; font-size: 13px; font-weight: 700; color: #9ca3af;
             z-index: 2; transition: color 0.3s; line-height: 32px;
         }
-        .container.pro-mode .switch-slider { transform: translateX(62px); background: linear-gradient(135deg, #8b5cf6, #a78bfa); }
+        .container.pro-mode .switch-slider { transform: translateX(66px); background: linear-gradient(135deg, #8b5cf6, #a78bfa); }
         .container.pro-mode .mode-label.pro-text { color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.2); }
         .container.pro-mode .mode-switch { background: #ede9fe; }
         .container.pro-mode { border-top: 4px solid #8b5cf6; }
 
-        /* Tabs */
         .tabs { display: flex; margin-bottom: 20px; background: #f9fafb; border-radius: 14px; padding: 4px; gap: 4px; border: 1px solid #f3f4f6; }
         .tab { 
-            flex: 1; text-align: center; padding: 8px 2px; cursor: pointer; border-radius: 10px; 
+            flex: 1; text-align: center; padding: 10px 4px; cursor: pointer; border-radius: 12px; 
             transition: all 0.2s; color: #6b7280; display: flex; flex-direction: column; justify-content: center; align-items: center;
         }
-        .tab-title { font-size: 13px; font-weight: 700; line-height: 1.2; }
-        .tab-desc { font-size: 9px; font-weight: 400; opacity: 0.8; margin-top: 2px; transform: scale(0.95); white-space: nowrap; }
+        .tab-title { font-size: 14px; font-weight: 700; line-height: 1.2; }
+        .tab-desc { font-size: 10px; font-weight: 400; opacity: 0.8; margin-top: 3px; transform: scale(0.95); white-space: nowrap; }
         .tab.active { background: white; color: var(--primary-color); box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
         .container.pro-mode .tab.active { color: #7c3aed; }
 
@@ -118,20 +119,20 @@
         @media (max-width: 700px) { .main-grid { grid-template-columns: 1fr; gap: 15px; } }
         
         .section-title { 
-            font-size: 13px; font-weight: 700; color: #6b7280; margin-bottom: 10px; 
+            font-size: 14px; font-weight: 700; color: #6b7280; margin-bottom: 12px; 
             border-bottom: 2px solid #f3f4f6; padding-bottom: 6px; display: flex; justify-content: space-between; 
         }
         
         .form-group { 
-            margin-bottom: 12px; border-radius: 12px; 
+            margin-bottom: 14px; border-radius: 12px; 
             padding: 6px; border: 2px solid transparent; 
             transition: all 0.2s ease;
         }
-        label { display: flex; align-items: center; justify-content: space-between; font-size: 12px; color: #4b5563; margin-bottom: 4px; font-weight: 600; }
+        label { display: flex; align-items: center; justify-content: space-between; font-size: 13px; color: #4b5563; margin-bottom: 5px; font-weight: 600; }
         
         .form-group.input-needed label::after {
-            content: "✎ 请输入"; font-size: 9px; background: var(--input-tag-bg); color: var(--input-tag-text);
-            padding: 1px 5px; border-radius: 6px; font-weight: 600;
+            content: "✎ 请输入"; font-size: 10px; background: var(--input-tag-bg); color: var(--input-tag-text);
+            padding: 1px 6px; border-radius: 6px; font-weight: 600;
         }
 
         .form-group.target-highlight {
@@ -147,12 +148,12 @@
 
         .form-group.target-highlight label { color: var(--result-text) !important; }
         .form-group.target-highlight label::after {
-            content: "✨ 智能计算"; font-size: 10px; background: white; color: var(--result-text);
+            content: "✨ 智能计算"; font-size: 11px; background: white; color: var(--result-text);
             padding: 2px 8px; border-radius: 10px; font-weight: 800; border: 1px solid #fecdd3;
         }
 
         input {
-            width: 100%; padding: 10px; border: 2px solid #f3f4f6; border-radius: 10px; font-size: 15px;
+            width: 100%; padding: 12px; border: 2px solid #f3f4f6; border-radius: 10px; font-size: 16px; 
             box-sizing: border-box; transition: all 0.2s; font-family: monospace; background: var(--input-bg);
             color: #1f2937;
         }
@@ -165,7 +166,7 @@
             border-radius: 0 !important;
             color: var(--result-text) !important;
             font-weight: 800 !important;
-            font-size: 20px !important; 
+            font-size: 22px !important; 
             text-align: center !important;
             box-shadow: none !important;
             opacity: 1 !important;
@@ -176,7 +177,7 @@
         .form-group.target-highlight input::placeholder {
             color: rgba(190, 18, 60, 0.4) !important; 
             font-weight: 400 !important; 
-            font-size: 14px !important;
+            font-size: 16px !important;
             -webkit-text-fill-color: rgba(190, 18, 60, 0.4) !important;
         }
 
@@ -189,71 +190,72 @@
         
         .event-row { display: flex; gap: 8px; margin-bottom: 10px; align-items: center; }
         .btn-add { 
-            background: white; border: 2px dashed #d1d5db; color: #6b7280; width: 100%; padding: 10px; 
-            border-radius: 12px; cursor: pointer; font-size: 12px; font-weight: 600; transition: all 0.2s;
+            background: white; border: 2px dashed #d1d5db; color: #6b7280; width: 100%; padding: 12px; 
+            border-radius: 12px; cursor: pointer; font-size: 13px; font-weight: 600; transition: all 0.2s;
         }
         .btn-add:hover { border-color: var(--primary-color); color: var(--primary-color); background: #f5f3ff; }
-        .btn-del { border:none; background:white; color:#ef4444; width:24px; height:24px; border-radius:50%; box-shadow:0 2px 4px rgba(0,0,0,0.1); cursor:pointer; display:flex; align-items:center; justify-content:center; }
+        .btn-del { border:none; background:white; color:#ef4444; width:28px; height:28px; border-radius:50%; box-shadow:0 2px 4px rgba(0,0,0,0.1); cursor:pointer; display:flex; align-items:center; justify-content:center; }
 
         .btn-calc { 
             width: 100%; background: var(--btn-gradient); color: white; padding: 16px; border: none; 
-            border-radius: 16px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 10px; 
+            border-radius: 16px; font-size: 18px; font-weight: 700; cursor: pointer; margin-top: 15px; 
             box-shadow: 0 8px 20px -5px rgba(139, 92, 246, 0.4);
             transition: transform 0.1s, box-shadow 0.2s; 
         }
         .btn-calc:active { transform: scale(0.98); box-shadow: 0 4px 10px -2px rgba(139, 92, 246, 0.4); }
 
+        /* 🔥 修正后的结果面板：去蓝光、更通透 */
         .result-panel { 
-            background: linear-gradient(135deg, #8b5cf6, #6366f1); color: white; padding: 20px; 
-            border-radius: 20px; margin-top: 25px; 
+            background: linear-gradient(135deg, #7c3aed 0%, #9333ea 100%); /* 修正：极光紫渐变，去蓝 */
+            color: white; padding: 25px; 
+            border-radius: 20px; margin-top: 30px; 
             display: flex; justify-content: space-between; align-items: flex-start;
             position: relative; overflow: hidden;
-            box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.4);
+            box-shadow: 0 10px 25px -5px rgba(124, 58, 237, 0.4);
         }
-        .result-panel::before {
-            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 60%);
-            transform: rotate(30deg); pointer-events: none;
-        }
+        /* 删除了 ::before 蒙版，去除雾感 */
+        
         .result-item { text-align: center; flex: 1; display: flex; flex-direction: column; align-items: center; z-index: 1; }
-        .result-item label { color: rgba(255,255,255,0.8); margin-bottom: 6px; font-size: 12px; letter-spacing: 0.5px; }
-        .result-item .value { font-size: 24px; font-weight: 800; line-height: 1.1; text-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .result-item label { color: rgba(255,255,255,0.85); margin-bottom: 8px; font-size: 13px; letter-spacing: 0.5px; }
+        .result-item .value { font-size: 28px; font-weight: 800; line-height: 1.1; text-shadow: 0 2px 4px rgba(0,0,0,0.1); }
         .real-val-group { display: flex; flex-direction: column; align-items: center; width: 100%; }
-        .green-text { color: #a7f3d0; }
+        .green-text { color: #dcfce7; /* 修正：更亮的薄荷绿，防止在紫色上看不清 */ }
 
         .cpi-control-box {
-            background: rgba(255,255,255,0.15); border-radius: 20px; padding: 3px;
-            display: flex; margin-top: 8px; width: fit-content; backdrop-filter: blur(4px);
+            background: rgba(255,255,255,0.2); border-radius: 20px; padding: 4px;
+            display: flex; margin-top: 10px; width: fit-content; backdrop-filter: blur(4px);
         }
         .cpi-btn {
-            background: transparent; border: none; color: rgba(255,255,255,0.7);
-            font-size: 10px; padding: 4px 8px; cursor: pointer; border-radius: 16px;
+            background: transparent; border: none; color: rgba(255,255,255,0.8);
+            font-size: 11px; padding: 5px 10px; cursor: pointer; border-radius: 16px;
             transition: all 0.2s; font-weight: 600;
         }
-        .cpi-btn.active.low { background: #d1fae5; color: #065f46; }
-        .cpi-btn.active.med { background: #dbeafe; color: #1e40af; }
-        .cpi-btn.active.high { background: #fee2e2; color: #991b1b; }
+        /* 修正：CPI 选中态改为白色半透明，更高级 */
+        .cpi-btn.active.low, .cpi-btn.active.med, .cpi-btn.active.high { 
+            background: rgba(255,255,255,0.9); color: #7c3aed; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
 
         .achievement-box {
             background: #fffbeb; border: 1px solid #fcd34d; border-left: 4px solid #f59e0b;
-            padding: 15px; margin-top: 20px; border-radius: 12px; display: none;
+            padding: 18px; margin-top: 25px; border-radius: 12px; display: none;
             position: relative; overflow: hidden;
         }
-        .achievement-box::after { content: '🏆'; position: absolute; right: -10px; bottom: -10px; font-size: 70px; opacity: 0.1; transform: rotate(-20deg); }
-        .achievement-header { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
-        .achievement-badge { background: #f59e0b; color: white; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 10px; }
-        .achievement-title { font-size: 16px; font-weight: 800; color: #92400e; }
-        .achievement-text { font-size: 13px; color: #b45309; line-height: 1.5; }
+        .achievement-box::after { content: '🏆'; position: absolute; right: -10px; bottom: -10px; font-size: 80px; opacity: 0.1; transform: rotate(-20deg); }
+        .achievement-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+        .achievement-badge { background: #f59e0b; color: white; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 12px; }
+        .achievement-title { font-size: 18px; font-weight: 800; color: #92400e; }
+        .achievement-text { font-size: 14px; color: #b45309; line-height: 1.6; }
         
-        .chart-box { margin-top: 25px; height: 250px; position: relative; }
+        .chart-box { margin-top: 30px; height: 280px; position: relative; }
 
         /* 折叠式说明区 */
         .glossary-box {
             margin-top: 30px; border-top: 1px dashed #e5e7eb; padding-top: 15px;
         }
         .glossary-summary {
-            font-size: 13px; font-weight: 700; color: #6b7280; cursor: pointer;
-            padding: 10px; background: #f9fafb; border-radius: 10px; list-style: none;
+            font-size: 14px; font-weight: 700; color: #6b7280; cursor: pointer;
+            padding: 12px; background: #f9fafb; border-radius: 12px; list-style: none;
             display: flex; justify-content: space-between; align-items: center;
         }
         .glossary-summary::after { content: '+'; font-weight: bold; }
@@ -261,56 +263,80 @@
         
         .glossary-content { padding-top: 15px; animation: fadeIn 0.5s; }
         
-        /* 拆分后的 Grid - 仅用于上方4个定义 */
         .glossary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
         @media (max-width: 600px) { .glossary-grid { grid-template-columns: 1fr; gap: 10px; } }
         
-        .glossary-item { font-size: 12px; color: #6b7280; line-height: 1.5; background: #f9fafb; padding: 10px; border-radius: 10px; }
+        .glossary-item { font-size: 13px; color: #6b7280; line-height: 1.6; background: #f9fafb; padding: 12px; border-radius: 10px; }
         .glossary-item b { color: var(--primary-dark); display: block; margin-bottom: 2px; }
-        .ref-val { color: #f43f5e; font-size: 11px; display: block; margin-top: 4px; font-weight: 500; }
+        .ref-val { color: #f43f5e; font-size: 12px; display: block; margin-top: 4px; font-weight: 500; }
 
-        /* 独立的财富门槛区域 (Anti-Gap Fix) */
         .wealth-section { width: 100%; box-sizing: border-box; background: #f9fafb; padding: 12px; border-radius: 12px; }
         .wealth-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px; width: 100%; }
-        .wealth-card { padding: 10px; border-radius: 10px; background: rgba(139,92,246,0.03); border: 1px solid rgba(139,92,246,0.1); display: flex; flex-direction: column; justify-content: space-between; }
-        .wealth-level { font-weight: 800; color: #7c3aed; font-size: 12px; margin-bottom: 4px; border-bottom: 1px dashed rgba(139,92,246,0.2); padding-bottom: 4px; display: block; }
-        .wealth-data { font-size: 11px; color: #4b5563; line-height: 1.5; }
+        .wealth-card { padding: 12px; border-radius: 10px; background: rgba(139,92,246,0.03); border: 1px solid rgba(139,92,246,0.1); display: flex; flex-direction: column; justify-content: space-between; }
+        .wealth-level { font-weight: 800; color: #7c3aed; font-size: 13px; margin-bottom: 4px; border-bottom: 1px dashed rgba(139,92,246,0.2); padding-bottom: 4px; display: block; }
+        .wealth-data { font-size: 12px; color: #4b5563; line-height: 1.5; }
 
         .action-bar { margin-top: 30px; display: flex; justify-content: center; gap: 15px; }
         .btn-reset { 
             background: white; border: 1px solid #e5e7eb; color: #94a3b8; 
-            font-size: 13px; padding: 12px 24px; border-radius: 24px; cursor: pointer; transition: all 0.2s;
+            font-size: 14px; padding: 12px 24px; border-radius: 24px; cursor: pointer; transition: all 0.2s;
         }
         .btn-reset:hover { border-color: #f43f5e; color: #f43f5e; }
         
         .btn-share-hero {
-            background: #1f2937; color: white; border: none; font-size: 13px; font-weight: 600;
+            background: #1f2937; color: white; border: none; font-size: 14px; font-weight: 600;
             padding: 12px 24px; border-radius: 24px; cursor: pointer; 
             box-shadow: 0 4px 12px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 6px;
             transition: transform 0.2s;
         }
         .btn-share-hero:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.2); }
 
-        /* 🔥 新增：小红书强力引流卡片 (文案已还原) */
-        .xhs-promo {
+        /* 🔥🔥 新增：V41.0 "博主名片" 推广卡片 */
+        .xhs-promo-card {
             margin-top: 40px; padding: 20px; 
-            background: linear-gradient(135deg, #fff0f2 0%, #fff 100%);
-            border: 1px solid #ff2442; border-radius: 16px;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05); /* 柔和阴影 */
+            border: 1px solid rgba(0, 0, 0, 0.03);
             text-align: center; position: relative; overflow: hidden;
+            display: flex; flex-direction: column; align-items: center;
         }
-        .xhs-promo::before { content: ''; position: absolute; top: 0; left: 0; width: 6px; height: 100%; background: #ff2442; }
-        .xhs-title { font-weight: 800; color: #ff2442; font-size: 15px; margin-bottom: 8px; }
-        .xhs-desc { font-size: 12px; color: #666; margin-bottom: 12px; line-height: 1.6; }
-        .xhs-btn {
-            display: inline-block; background: #ff2442; color: white; 
-            text-decoration: none; padding: 10px 24px; border-radius: 24px;
-            font-size: 13px; font-weight: 700; box-shadow: 0 4px 10px rgba(255, 36, 66, 0.3);
-            transition: transform 0.2s;
-        }
-        .xhs-btn:active { transform: scale(0.96); }
+        
+        /* 顶部红色装饰条 */
+        .xhs-promo-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 6px; background: #ff2442; }
 
-        .footer { text-align: center; font-size: 12px; color: #9ca3af; margin-top: 20px; line-height: 1.8; padding-bottom: 40px; }
-        .footer a { color: var(--primary-color); text-decoration: none; border-bottom: 1px dashed #cbd5e1; padding-bottom: 2px; }
+        .promo-avatar {
+            font-size: 40px; margin-top: 5px; margin-bottom: 10px;
+            width: 60px; height: 60px; background: #fff5f6;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            border: 2px solid #ff2442;
+        }
+
+        .promo-header {
+            font-size: 16px; color: #1f2937; font-weight: 800; margin-bottom: 6px;
+        }
+        .promo-header span { color: #ff2442; }
+        
+        .promo-tags {
+            font-size: 12px; color: #6b7280; line-height: 1.6; margin-bottom: 20px; max-width: 90%;
+        }
+        
+        .promo-btn {
+            width: 100%; max-width: 200px;
+            background: #ff2442; color: white; 
+            text-decoration: none; padding: 12px 0; border-radius: 30px;
+            font-size: 14px; font-weight: 700; 
+            box-shadow: 0 4px 15px rgba(255, 36, 66, 0.3);
+            transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px;
+        }
+        .promo-btn:active { transform: scale(0.96); box-shadow: 0 2px 6px rgba(255, 36, 66, 0.2); }
+
+        .footer-legal {
+            text-align: center; margin-top: 30px; padding-bottom: 40px; color: #9ca3af;
+        }
+        .footer-legal p { margin: 5px 0; font-size: 12px; }
+        .footer-legal a { color: var(--primary-color); text-decoration: none; border-bottom: 1px dashed #cbd5e1; }
+        .disclaimer { opacity: 0.6; font-size: 11px !important; margin-top: 15px !important; transform: scale(0.95); }
         
         #lite-placeholder { text-align: center; color: #d1d5db; font-size: 13px; padding: 30px; border: 2px dashed #e5e7eb; border-radius: 16px; height: 100%; display: flex; align-items: center; justify-content: center; flex-direction: column; background: #f9fafb; }
     </style>
@@ -318,7 +344,7 @@
 <body>
 
 <div class="container" id="appContainer">
-    <div class="intro-box">
+    <div class="hero-card" style="background:white; border:1px solid rgba(139,92,246,0.15); border-radius:16px; padding:20px 15px; margin-bottom:15px; box-shadow:0 4px 20px rgba(139,92,246,0.05); text-align:center;">
         <span class="emoji-header">🔮</span>
         <h1>人生估值沙盘推演</h1>
         
@@ -340,23 +366,29 @@
                 <div class="ic-text">如何锚定合适的年化收益率区间？</div>
             </div>
         </div>
+
+        <div style="height:1px; background:#f3f4f6; margin:15px 0; width:100%;"></div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:0 5px;">
+            <div class="guide-step">
+                <div class="guide-icon">🎯</div>
+                <div class="guide-text">设定目标</div>
+            </div>
+            <div class="guide-line"></div>
+            <div class="guide-step">
+                <div class="guide-icon">📝</div>
+                <div class="guide-text">输入数字</div>
+            </div>
+            <div class="guide-line"></div>
+            <div class="guide-step">
+                <div class="guide-icon">🔓</div>
+                <div class="guide-text">解锁估值</div>
+            </div>
+        </div>
     </div>
-    
-    <div class="guide-box">
-        <div class="guide-step">
-            <div class="guide-icon">🎯</div>
-            <div class="guide-text">设定目标</div>
-        </div>
-        <div class="guide-line"></div>
-        <div class="guide-step">
-            <div class="guide-icon">📝</div>
-            <div class="guide-text">输入薪资</div>
-        </div>
-        <div class="guide-line"></div>
-        <div class="guide-step">
-            <div class="guide-icon">🔓</div>
-            <div class="guide-text">解锁成就</div>
-        </div>
+
+    <div class="scroll-hint">
+        <span>👇</span>
     </div>
 
     <div class="header-row">
@@ -423,7 +455,7 @@
         <div id="lite-placeholder">
             <div style="font-size:40px; margin-bottom:15px; opacity:0.5;">🦄</div>
             <div style="font-weight:600; color:#9ca3af;">开启 Pro 模式</div>
-            <div style="font-size:12px; margin-top:5px;">解锁工资涨幅与人生事件模拟</div>
+            <div style="font-size:13px; margin-top:5px;">解锁工资涨幅与人生事件模拟</div>
         </div>
     </div>
 
@@ -477,7 +509,7 @@
             </div>
             
             <div class="wealth-section">
-                <b style="color:#374151; font-size:12px;">🏆 财富自由门槛 (胡润2021)</b>
+                <b style="color:#374151; font-size:13px;">🏆 财富自由门槛 (胡润2021)</b>
                 <div class="wealth-grid">
                     <div class="wealth-card">
                         <span class="wealth-level">🟢 入门级</span>
@@ -505,17 +537,22 @@
         <button class="btn-share-hero" onclick="copyReport()">📋 复制详细成就战报</button>
     </div>
 
-    <div class="xhs-promo">
-        <div class="xhs-title">👋 关注 Khalid在路上 @小红书</div>
-        <div class="xhs-desc">一个脑洞很大的跨境金融从业者<br>分享宏观视角下的个人成长与职业选择</div>
-        <a href="https://www.xiaohongshu.com/user/profile/57d207127fc5b80a5ba8f181?xsec_token=ABV1YdZWooJGuigvNywrRlCN8Pu00zWLQwV21BWFv07Qk%3D&xsec_source=pc_search" target="_blank" class="xhs-btn">👉 点击前往小红书主页</a>
+    <div class="xhs-promo-card">
+        <div class="promo-avatar">🦁</div>
+        <div class="promo-header">Designed by <span>Khalid在路上</span></div>
+        <div class="promo-tags">
+            一个脑洞很大的跨境金融从业者<br>
+            分享宏观视角下的个人成长与思考吐槽
+        </div>
+        <a href="https://www.xiaohongshu.com/user/profile/57d207127fc5b80a5ba8f181?xsec_token=ABV1YdZWooJGuigvNywrRlCN8Pu00zWLQwV21BWFv07Qk%3D&xsec_source=pc_search" target="_blank" class="promo-btn">
+            🚀 点击前往小红书主页
+        </a>
     </div>
 </div>
 
-<div class="footer">
-    <div class="contact-info">
-        Designed by Khalid | 联系邮箱: <a href="mailto:ryan.zhang@pku.org.cn">ryan.zhang@pku.org.cn</a>
-    </div>
+<div class="footer-legal">
+    <p>联系邮箱: <a href="mailto:ryan.zhang@pku.org.cn">ryan.zhang@pku.org.cn</a></p>
+    <p class="disclaimer">⚠️ 声明：本工具结果仅供参考，不构成投资建议。</p>
 </div>
 
 <script>
@@ -573,12 +610,12 @@
                     amt: row.querySelector('.event-amount').value
                 });
             });
-            localStorage.setItem('wealth_sim_v37', JSON.stringify(data));
+            localStorage.setItem('wealth_sim_v41', JSON.stringify(data));
         } catch(e) {}
     }
 
     function loadData() {
-        const saved = localStorage.getItem('wealth_sim_v37');
+        const saved = localStorage.getItem('wealth_sim_v41');
         if (!saved) { updateUI(); return; }
         
         const data = JSON.parse(saved);
@@ -607,7 +644,7 @@
 
     function clearData(ask=true) {
         if(ask && !confirm('确定要清空所有数据吗？')) return;
-        localStorage.removeItem('wealth_sim_v37');
+        localStorage.removeItem('wealth_sim_v41');
         const inputs = document.querySelectorAll('input');
         inputs.forEach(i => i.value = "");
         document.getElementById('eventContainer').innerHTML = "";
@@ -661,12 +698,10 @@
             res: safeGetEl('grp_solved_pmt')
         };
 
-        // Reset marks
         document.querySelectorAll('.form-group').forEach(el => {
             el.classList.remove('target-highlight', 'input-needed');
         });
 
-        // Toggle PMT mode inputs
         if (currentTab === 'pmt') {
             els.simple.style.display = 'none'; els.pro.style.display = 'none'; els.res.style.display = 'block';
             setAsTarget(safeGetEl('solved_pmt'));
@@ -682,7 +717,6 @@
             setAsTarget(els.fv); 
             setAsInput(els.pv, DEFAULTS.pv);
             setAsInput(els.years, DEFAULTS.years);
-            // Pro Mode inputs logic check
             if (!isProMode) {
                 setAsInput(safeGetEl('simple_pmt'), DEFAULTS.simple_pmt);
             } else {
