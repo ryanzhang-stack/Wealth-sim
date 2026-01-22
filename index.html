@@ -17,7 +17,6 @@
     <script src="https://cdn.bootcdn.net/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <style>
         :root {
-            /* 核心色板 */
             --primary-color: #8b5cf6;
             --primary-dark: #7c3aed;
             --accent-color: #f43f5e;
@@ -28,7 +27,6 @@
             --btn-gradient: linear-gradient(135deg, #8b5cf6 0%, #d946ef 100%);
             --shadow-soft: 0 10px 40px -10px rgba(139, 92, 246, 0.15);
             
-            /* 状态色 */
             --input-bg: #f8fafc;
             --input-border: #e2e8f0;
             --input-tag-bg: #e0e7ff;
@@ -51,92 +49,96 @@
             backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.8); transition: all 0.3s ease;
         }
         
-        .emoji-header { font-size: 32px; margin-bottom: 4px; display: block; animation: float 3s ease-in-out infinite; }
-        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-6px); } 100% { transform: translateY(0px); } }
+        .hero-card {
+            background: white; border: 1px solid rgba(139,92,246,0.15); 
+            border-radius: 16px; padding: 15px; margin-bottom: 10px; 
+            box-shadow: 0 4px 15px rgba(139,92,246,0.03); text-align: center;
+        }
+
+        .emoji-header { font-size: 28px; margin-bottom: 2px; display: block; animation: float 3s ease-in-out infinite; }
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-4px); } 100% { transform: translateY(0px); } }
         
         h1 { 
-            font-size: 22px; margin: 0 0 12px 0; color: #4c1d95; font-weight: 800; 
+            font-size: 20px; margin: 0 0 12px 0; color: #4c1d95; font-weight: 800; 
             background: -webkit-linear-gradient(45deg, #8b5cf6, #f43f5e);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
         .intro-grid {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 12px;
         }
         .intro-card {
-            background: white; border: 1px solid rgba(139, 92, 246, 0.1);
-            border-radius: 10px; padding: 10px 8px; text-align: left;
-            box-shadow: 0 2px 4px rgba(139, 92, 246, 0.03);
+            background: #f9fafb; border-radius: 8px; padding: 8px 6px; text-align: left;
         }
         .ic-title { 
-            font-size: 13px; font-weight: 700; color: #7c3aed; margin-bottom: 3px; 
-            display: flex; align-items: center; gap: 4px;
+            font-size: 12px; font-weight: 700; color: #7c3aed; margin-bottom: 2px; 
+            display: flex; align-items: center; gap: 3px;
         }
-        .ic-text { font-size: 12px; color: #4b5563; line-height: 1.3; opacity: 0.9; }
+        .ic-text { font-size: 10px; color: #4b5563; line-height: 1.3; opacity: 0.9; }
 
-        .guide-step { display: flex; flex-direction: column; align-items: center; gap: 4px; flex: 1; text-align: center; }
-        .guide-icon { font-size: 16px; background: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .guide-text { font-size: 11px; color: #5b21b6; font-weight: 700; }
-        .guide-line { width: 20px; height: 2px; background: #ddd6fe; border-radius: 2px; }
+        .guide-step { display: flex; flex-direction: column; align-items: center; gap: 3px; flex: 1; text-align: center; }
+        .guide-icon { font-size: 14px; background: white; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border: 1px solid #f3f4f6; }
+        .guide-text { font-size: 10px; color: #5b21b6; font-weight: 700; }
+        .guide-line { width: 15px; height: 1px; background: #ddd6fe; }
 
         .scroll-hint {
-            text-align: center; margin-bottom: 15px; animation: bounce 2s infinite; opacity: 0.6;
+            text-align: center; margin-bottom: 10px; animation: bounce 2s infinite; opacity: 0.6;
         }
-        .scroll-hint span { font-size: 20px; color: #8b5cf6; cursor: pointer; }
-        @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-6px);} 60% {transform: translateY(-3px);} }
+        .scroll-hint span { font-size: 18px; color: #8b5cf6; cursor: pointer; }
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-4px);} 60% {transform: translateY(-2px);} }
 
         .header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         .section-label { font-size: 15px; font-weight: 700; color: #4b5563; display: flex; align-items: center; gap: 6px; }
         
         .mode-switch {
-            position: relative; width: 140px; height: 40px; background: #f3f4f6;
-            border-radius: 20px; display: flex; align-items: center; padding: 4px;
+            position: relative; width: 130px; height: 36px; background: #f3f4f6;
+            border-radius: 18px; display: flex; align-items: center; padding: 3px;
             cursor: pointer; user-select: none; box-sizing: border-box;
             box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
         }
         .switch-slider {
-            position: absolute; left: 4px; top: 4px; width: 66px; height: 32px;
-            background: white; border-radius: 16px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: absolute; left: 3px; top: 3px; width: 62px; height: 30px;
+            background: white; border-radius: 15px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1); transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
             z-index: 1;
         }
         .mode-label {
-            flex: 1; text-align: center; font-size: 13px; font-weight: 700; color: #9ca3af;
+            flex: 1; text-align: center; font-size: 12px; font-weight: 700; color: #9ca3af;
             z-index: 2; transition: color 0.3s; line-height: 32px;
         }
-        .container.pro-mode .switch-slider { transform: translateX(66px); background: linear-gradient(135deg, #8b5cf6, #a78bfa); }
+        .container.pro-mode .switch-slider { transform: translateX(62px); background: linear-gradient(135deg, #8b5cf6, #a78bfa); }
         .container.pro-mode .mode-label.pro-text { color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.2); }
         .container.pro-mode .mode-switch { background: #ede9fe; }
         .container.pro-mode { border-top: 4px solid #8b5cf6; }
 
-        .tabs { display: flex; margin-bottom: 20px; background: #f9fafb; border-radius: 14px; padding: 4px; gap: 4px; border: 1px solid #f3f4f6; }
+        .tabs { display: flex; margin-bottom: 15px; background: #f9fafb; border-radius: 14px; padding: 3px; gap: 3px; border: 1px solid #f3f4f6; }
         .tab { 
-            flex: 1; text-align: center; padding: 10px 4px; cursor: pointer; border-radius: 12px; 
+            flex: 1; text-align: center; padding: 8px 2px; cursor: pointer; border-radius: 12px; 
             transition: all 0.2s; color: #6b7280; display: flex; flex-direction: column; justify-content: center; align-items: center;
         }
-        .tab-title { font-size: 14px; font-weight: 700; line-height: 1.2; }
-        .tab-desc { font-size: 10px; font-weight: 400; opacity: 0.8; margin-top: 3px; transform: scale(0.95); white-space: nowrap; }
+        .tab-title { font-size: 13px; font-weight: 700; line-height: 1.2; }
+        .tab-desc { font-size: 9px; font-weight: 400; opacity: 0.8; margin-top: 2px; transform: scale(0.95); white-space: nowrap; }
         .tab.active { background: white; color: var(--primary-color); box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
         .container.pro-mode .tab.active { color: #7c3aed; }
 
-        .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        @media (max-width: 700px) { .main-grid { grid-template-columns: 1fr; gap: 15px; } }
+        .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        @media (max-width: 700px) { .main-grid { grid-template-columns: 1fr; gap: 10px; } }
         
         .section-title { 
-            font-size: 14px; font-weight: 700; color: #6b7280; margin-bottom: 12px; 
-            border-bottom: 2px solid #f3f4f6; padding-bottom: 6px; display: flex; justify-content: space-between; 
+            font-size: 14px; font-weight: 700; color: #6b7280; margin-bottom: 8px; 
+            border-bottom: 2px solid #f3f4f6; padding-bottom: 4px; display: flex; justify-content: space-between; 
         }
         
         .form-group { 
-            margin-bottom: 14px; border-radius: 12px; 
-            padding: 6px; border: 2px solid transparent; 
+            margin-bottom: 10px; border-radius: 12px; 
+            padding: 4px; border: 2px solid transparent; 
             transition: all 0.2s ease;
         }
-        label { display: flex; align-items: center; justify-content: space-between; font-size: 13px; color: #4b5563; margin-bottom: 5px; font-weight: 600; }
+        label { display: flex; align-items: center; justify-content: space-between; font-size: 13px; color: #4b5563; margin-bottom: 4px; font-weight: 600; }
         
         .form-group.input-needed label::after {
             content: "✎ 请输入"; font-size: 10px; background: var(--input-tag-bg); color: var(--input-tag-text);
-            padding: 1px 6px; border-radius: 6px; font-weight: 600;
+            padding: 1px 5px; border-radius: 6px; font-weight: 600;
         }
 
         .form-group.target-highlight {
@@ -152,16 +154,15 @@
 
         .form-group.target-highlight label { color: var(--result-text) !important; }
         .form-group.target-highlight label::after {
-            content: "✨ 智能计算"; font-size: 11px; background: white; color: var(--result-text);
-            padding: 2px 8px; border-radius: 10px; font-weight: 800; border: 1px solid #fecdd3;
+            content: "✨ 智能计算"; font-size: 10px; background: white; color: var(--result-text);
+            padding: 2px 6px; border-radius: 10px; font-weight: 800; border: 1px solid #fecdd3;
         }
 
         input {
-            width: 100%; padding: 12px; border: 2px solid #f3f4f6; border-radius: 10px; font-size: 16px; 
+            width: 100%; padding: 10px; border: 2px solid #f3f4f6; border-radius: 10px; font-size: 16px; 
             box-sizing: border-box; transition: all 0.2s; font-family: monospace; background: var(--input-bg);
             color: #1f2937;
         }
-        /* 修复 Bug: 虽然 type=text, 但强制弹出数字键盘 */
         input[type="text"] { input-mode: decimal; } 
         input:focus { outline: none; border-color: #a78bfa; background: white; box-shadow: 0 0 0 4px #ede9fe; }
 
@@ -181,100 +182,118 @@
             cursor: default !important;
         }
         .form-group.target-highlight input::placeholder {
-            color: rgba(190, 18, 60, 0.4) !important; 
-            font-weight: 400 !important; 
-            font-size: 16px !important;
-            -webkit-text-fill-color: rgba(190, 18, 60, 0.4) !important;
+            color: rgba(190, 18, 60, 0.4) !important; font-weight: 400 !important; 
+            font-size: 16px !important; -webkit-text-fill-color: rgba(190, 18, 60, 0.4) !important;
         }
 
         .pro-only { display: none; }
         .container.pro-mode .pro-only { display: block; animation: slideDown 0.4s ease; }
         @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
         
-        .growth-inputs { background: #fff1f2; padding: 15px; border-radius: 16px; border: 1px solid #ffe4e6; margin-bottom: 15px; }
+        .growth-inputs { background: #fff1f2; padding: 10px; border-radius: 12px; border: 1px solid #ffe4e6; margin-bottom: 10px; }
         .container.pro-mode .growth-inputs { background: #f5f3ff; border-color: #ddd6fe; }
         
-        .event-row { display: flex; gap: 8px; margin-bottom: 10px; align-items: center; }
+        .event-row { display: flex; gap: 6px; margin-bottom: 8px; align-items: center; }
         .btn-add { 
-            background: white; border: 2px dashed #d1d5db; color: #6b7280; width: 100%; padding: 12px; 
-            border-radius: 12px; cursor: pointer; font-size: 13px; font-weight: 600; transition: all 0.2s;
+            background: white; border: 2px dashed #d1d5db; color: #6b7280; width: 100%; padding: 10px; 
+            border-radius: 12px; cursor: pointer; font-size: 12px; font-weight: 600; transition: all 0.2s;
         }
         .btn-add:hover { border-color: var(--primary-color); color: var(--primary-color); background: #f5f3ff; }
-        .btn-del { border:none; background:white; color:#ef4444; width:28px; height:28px; border-radius:50%; box-shadow:0 2px 4px rgba(0,0,0,0.1); cursor:pointer; display:flex; align-items:center; justify-content:center; }
+        .btn-del { border:none; background:white; color:#ef4444; width:24px; height:24px; border-radius:50%; box-shadow:0 2px 4px rgba(0,0,0,0.1); cursor:pointer; display:flex; align-items:center; justify-content:center; }
 
         .btn-calc { 
-            width: 100%; background: var(--btn-gradient); color: white; padding: 16px; border: none; 
-            border-radius: 16px; font-size: 18px; font-weight: 700; cursor: pointer; margin-top: 15px; 
+            width: 100%; background: var(--btn-gradient); color: white; padding: 14px; border: none; 
+            border-radius: 16px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 5px; margin-bottom: 10px;
             box-shadow: 0 8px 20px -5px rgba(139, 92, 246, 0.4);
             transition: transform 0.1s, box-shadow 0.2s; 
         }
         .btn-calc:active { transform: scale(0.98); box-shadow: 0 4px 10px -2px rgba(139, 92, 246, 0.4); }
 
+        /* 🔥 V45.0 结果面板重构：2x2 Grid 布局，解决拥挤问题 */
         .result-panel { 
             background: linear-gradient(135deg, #7c3aed 0%, #9333ea 100%); 
-            color: white; padding: 25px; 
-            border-radius: 20px; margin-top: 30px; 
-            display: flex; justify-content: space-between; align-items: flex-start;
+            color: white; padding: 20px 15px; 
+            border-radius: 20px; margin-top: 15px; 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            grid-template-rows: auto auto;
+            gap: 15px;
             position: relative; overflow: hidden;
             box-shadow: 0 10px 25px -5px rgba(124, 58, 237, 0.4);
         }
         
-        .result-item { text-align: center; flex: 1; display: flex; flex-direction: column; align-items: center; z-index: 1; }
-        .result-item label { color: rgba(255,255,255,0.85); margin-bottom: 8px; font-size: 13px; letter-spacing: 0.5px; }
-        .result-item .value { font-size: 28px; font-weight: 800; line-height: 1.1; text-shadow: 0 2px 4px rgba(0,0,0,0.1); word-break: break-all; } /* 修复大数溢出 */
-        .real-val-group { display: flex; flex-direction: column; align-items: center; width: 100%; }
+        .result-item { display: flex; flex-direction: column; align-items: center; z-index: 1; }
+        .result-item label { color: rgba(255,255,255,0.85); margin-bottom: 4px; font-size: 11px; letter-spacing: 0.5px; white-space: nowrap; }
+        .result-item .value { font-size: 22px; font-weight: 800; line-height: 1.1; text-shadow: 0 2px 4px rgba(0,0,0,0.1); word-break: break-all; text-align: center; }
         .green-text { color: #dcfce7; }
 
-        /* V44.0 新增：二维码优化样式 */
-        .qr-item {
-            justify-content: center; position: relative;
-        }
+        /* V45.0 二维码样式：去白底，更融合 */
         .qr-container {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 4px;
+            background: rgba(255, 255, 255, 0.2); /* 半透明背景 */
+            backdrop-filter: blur(5px);
+            padding: 5px;
             border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
             display: flex; flex-direction: column; align-items: center;
+            border: 1px solid rgba(255,255,255,0.3);
         }
         .qr-img {
-            width: 75px; height: 75px;
+            width: 60px; height: 60px;
             border-radius: 4px;
             display: block;
+            mix-blend-mode: multiply; /* 正片叠底，去除白色杂边，融入背景 */
+            opacity: 0.9;
         }
 
         .cpi-control-box {
-            background: rgba(255,255,255,0.2); border-radius: 20px; padding: 4px;
-            display: flex; margin-top: 10px; width: fit-content; backdrop-filter: blur(4px);
+            background: rgba(255,255,255,0.2); border-radius: 16px; padding: 3px;
+            display: flex; width: fit-content; backdrop-filter: blur(4px);
         }
         .cpi-btn {
             background: transparent; border: none; color: rgba(255,255,255,0.8);
-            font-size: 11px; padding: 5px 10px; cursor: pointer; border-radius: 16px;
+            font-size: 10px; padding: 4px 8px; cursor: pointer; border-radius: 12px;
             transition: all 0.2s; font-weight: 600;
         }
         .cpi-btn.active.low, .cpi-btn.active.med, .cpi-btn.active.high { 
-            background: rgba(255,255,255,0.9); color: #7c3aed; 
+            background: rgba(255,255,255,0.95); color: #7c3aed; 
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
+        /* V45.0 Pro占位符：压扁成横幅，节省空间 */
+        #lite-placeholder { 
+            text-align: center; 
+            padding: 10px; 
+            border: 1px dashed #d1d5db; 
+            border-radius: 12px; 
+            background: #f9fafb; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 10px;
+            margin-top: 15px;
+            color: #9ca3af;
+            cursor: pointer;
+        }
+        #lite-placeholder:active { background: #f3f4f6; }
+
         .achievement-box {
             background: #fffbeb; border: 1px solid #fcd34d; border-left: 4px solid #f59e0b;
-            padding: 18px; margin-top: 25px; border-radius: 12px; display: none;
+            padding: 15px; margin-top: 20px; border-radius: 12px; display: none;
             position: relative; overflow: hidden;
         }
         .achievement-box::after { content: '🏆'; position: absolute; right: -10px; bottom: -10px; font-size: 80px; opacity: 0.1; transform: rotate(-20deg); }
         .achievement-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
         .achievement-badge { background: #f59e0b; color: white; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 12px; }
-        .achievement-title { font-size: 18px; font-weight: 800; color: #92400e; }
-        .achievement-text { font-size: 14px; color: #b45309; line-height: 1.6; }
+        .achievement-title { font-size: 16px; font-weight: 800; color: #92400e; }
+        .achievement-text { font-size: 13px; color: #b45309; line-height: 1.5; }
         
-        .chart-box { margin-top: 30px; height: 280px; position: relative; }
+        .chart-box { margin-top: 25px; height: 250px; position: relative; }
 
         .glossary-box {
-            margin-top: 30px; border-top: 1px dashed #e5e7eb; padding-top: 15px;
+            margin-top: 25px; border-top: 1px dashed #e5e7eb; padding-top: 15px;
         }
         .glossary-summary {
-            font-size: 14px; font-weight: 700; color: #6b7280; cursor: pointer;
-            padding: 12px; background: #f9fafb; border-radius: 12px; list-style: none;
+            font-size: 13px; font-weight: 700; color: #6b7280; cursor: pointer;
+            padding: 10px; background: #f9fafb; border-radius: 10px; list-style: none;
             display: flex; justify-content: space-between; align-items: center;
         }
         .glossary-summary::after { content: '+'; font-weight: bold; }
@@ -282,36 +301,35 @@
         
         .glossary-content { padding-top: 15px; animation: fadeIn 0.5s; }
         
-        .glossary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
-        @media (max-width: 600px) { .glossary-grid { grid-template-columns: 1fr; gap: 10px; } }
+        .glossary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
         
-        .glossary-item { font-size: 13px; color: #6b7280; line-height: 1.6; background: #f9fafb; padding: 12px; border-radius: 10px; }
+        .glossary-item { font-size: 12px; color: #6b7280; line-height: 1.5; background: #f9fafb; padding: 10px; border-radius: 10px; }
         .glossary-item b { color: var(--primary-dark); display: block; margin-bottom: 2px; }
-        .ref-val { color: #f43f5e; font-size: 12px; display: block; margin-top: 4px; font-weight: 500; }
+        .ref-val { color: #f43f5e; font-size: 11px; display: block; margin-top: 4px; font-weight: 500; }
 
         .wealth-section { width: 100%; box-sizing: border-box; background: #f9fafb; padding: 12px; border-radius: 12px; }
-        .wealth-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px; width: 100%; }
-        .wealth-card { padding: 12px; border-radius: 10px; background: rgba(139,92,246,0.03); border: 1px solid rgba(139,92,246,0.1); display: flex; flex-direction: column; justify-content: space-between; }
-        .wealth-level { font-weight: 800; color: #7c3aed; font-size: 13px; margin-bottom: 4px; border-bottom: 1px dashed rgba(139,92,246,0.2); padding-bottom: 4px; display: block; }
-        .wealth-data { font-size: 12px; color: #4b5563; line-height: 1.5; }
+        .wealth-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; width: 100%; }
+        .wealth-card { padding: 10px; border-radius: 10px; background: rgba(139,92,246,0.03); border: 1px solid rgba(139,92,246,0.1); display: flex; flex-direction: column; justify-content: space-between; }
+        .wealth-level { font-weight: 800; color: #7c3aed; font-size: 12px; margin-bottom: 4px; border-bottom: 1px dashed rgba(139,92,246,0.2); padding-bottom: 4px; display: block; }
+        .wealth-data { font-size: 11px; color: #4b5563; line-height: 1.5; }
 
-        .action-bar { margin-top: 30px; display: flex; justify-content: center; gap: 15px; }
+        .action-bar { margin-top: 25px; display: flex; justify-content: center; gap: 10px; }
         .btn-reset { 
             background: white; border: 1px solid #e5e7eb; color: #94a3b8; 
-            font-size: 14px; padding: 12px 24px; border-radius: 24px; cursor: pointer; transition: all 0.2s;
+            font-size: 13px; padding: 10px 20px; border-radius: 20px; cursor: pointer; transition: all 0.2s;
         }
         .btn-reset:hover { border-color: #f43f5e; color: #f43f5e; }
         
         .btn-share-hero {
-            background: #1f2937; color: white; border: none; font-size: 14px; font-weight: 600;
-            padding: 12px 24px; border-radius: 24px; cursor: pointer; 
+            background: #1f2937; color: white; border: none; font-size: 13px; font-weight: 600;
+            padding: 10px 20px; border-radius: 20px; cursor: pointer; 
             box-shadow: 0 4px 12px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 6px;
             transition: transform 0.2s;
         }
         .btn-share-hero:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.2); }
 
         .xhs-promo-card {
-            margin-top: 40px; padding: 20px; 
+            margin-top: 30px; padding: 20px; 
             background: #ffffff;
             border-radius: 20px;
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
@@ -319,88 +337,57 @@
             text-align: center; position: relative; overflow: hidden;
             display: flex; flex-direction: column; align-items: center;
         }
-        
         .xhs-promo-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 6px; background: #ff2442; }
 
         .promo-avatar {
-            font-size: 40px; margin-top: 5px; margin-bottom: 10px;
-            width: 60px; height: 60px; background: #fff5f6;
+            font-size: 36px; margin-top: 5px; margin-bottom: 8px;
+            width: 50px; height: 50px; background: #fff5f6;
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
             border: 2px solid #ff2442;
         }
 
-        .promo-header {
-            font-size: 16px; color: #1f2937; font-weight: 800; margin-bottom: 6px;
-        }
+        .promo-header { font-size: 15px; color: #1f2937; font-weight: 800; margin-bottom: 6px; }
         .promo-header span { color: #ff2442; }
-        
-        .promo-tags {
-            font-size: 12px; color: #6b7280; line-height: 1.6; margin-bottom: 20px; max-width: 90%;
-        }
+        .promo-tags { font-size: 12px; color: #6b7280; line-height: 1.6; margin-bottom: 15px; max-width: 95%; }
         
         .promo-btn {
-            width: 100%; max-width: 200px;
+            width: 100%; max-width: 220px;
             background: #ff2442; color: white; 
-            text-decoration: none; padding: 12px 0; border-radius: 30px;
-            font-size: 14px; font-weight: 700; 
+            text-decoration: none; padding: 10px 0; border-radius: 30px;
+            font-size: 13px; font-weight: 700; 
             box-shadow: 0 4px 15px rgba(255, 36, 66, 0.3);
             transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px;
         }
         .promo-btn:active { transform: scale(0.96); box-shadow: 0 2px 6px rgba(255, 36, 66, 0.2); }
 
-        .footer-legal {
-            text-align: center; margin-top: 30px; padding-bottom: 40px; color: #9ca3af;
-        }
-        .footer-legal p { margin: 5px 0; font-size: 12px; }
+        .footer-legal { text-align: center; margin-top: 30px; padding-bottom: 30px; color: #9ca3af; }
+        .footer-legal p { margin: 4px 0; font-size: 11px; }
         .footer-legal a { color: var(--primary-color); text-decoration: none; border-bottom: 1px dashed #cbd5e1; }
-        .disclaimer { opacity: 0.6; font-size: 11px !important; margin-top: 15px !important; transform: scale(0.95); }
-        
-        #lite-placeholder { text-align: center; color: #d1d5db; font-size: 13px; padding: 30px; border: 2px dashed #e5e7eb; border-radius: 16px; height: 100%; display: flex; align-items: center; justify-content: center; flex-direction: column; background: #f9fafb; }
+        .disclaimer { opacity: 0.6; font-size: 10px !important; margin-top: 10px !important; transform: scale(0.95); }
     </style>
 </head>
 <body>
 
 <div class="container" id="appContainer">
-    <div class="hero-card" style="background:white; border:1px solid rgba(139,92,246,0.15); border-radius:16px; padding:20px 15px; margin-bottom:15px; box-shadow:0 4px 20px rgba(139,92,246,0.05); text-align:center;">
+    <div class="hero-card">
         <span class="emoji-header">🔮</span>
         <h1>人生估值沙盘推演</h1>
         
         <div class="intro-grid">
-            <div class="intro-card">
-                <div class="ic-title">🎓 Offer选择</div>
-                <div class="ic-text">不同的轨道，会带来什么不同的人生估值曲线？</div>
-            </div>
-            <div class="intro-card">
-                <div class="ic-title">🌱 理财初尝</div>
-                <div class="ic-text">还要多少年才能财富自由？</div>
-            </div>
-            <div class="intro-card">
-                <div class="ic-title">⏰ 打工鸡汤</div>
-                <div class="ic-text">不要高估1个月的努力，却低估10年的复利。</div>
-            </div>
-            <div class="intro-card">
-                <div class="ic-title">📈 投资策略</div>
-                <div class="ic-text">如何锚定合适的年化收益率区间？</div>
-            </div>
+            <div class="intro-card"><div class="ic-title">🎓 Offer选择</div><div class="ic-text">不同的轨道，不同的人生估值曲线？</div></div>
+            <div class="intro-card"><div class="ic-title">🌱 理财初尝</div><div class="ic-text">还要多少年才能财富自由？</div></div>
+            <div class="intro-card"><div class="ic-title">⏰ 打工鸡汤</div><div class="ic-text">别高估1个月的努力，低估10年的复利。</div></div>
+            <div class="intro-card"><div class="ic-title">📈 投资策略</div><div class="ic-text">如何锚定合适的年化收益率区间？</div></div>
         </div>
 
-        <div style="height:1px; background:#f3f4f6; margin:15px 0; width:100%;"></div>
+        <div style="height:1px; background:#f3f4f6; margin:10px 0; width:100%;"></div>
 
         <div style="display:flex; justify-content:space-between; align-items:center; padding:0 5px;">
-            <div class="guide-step">
-                <div class="guide-icon">🎯</div>
-                <div class="guide-text">设定目标</div>
-            </div>
+            <div class="guide-step"><div class="guide-icon">🎯</div><div class="guide-text">设定目标</div></div>
             <div class="guide-line"></div>
-            <div class="guide-step">
-                <div class="guide-icon">📝</div>
-                <div class="guide-text">输入数字</div>
-            </div>
+            <div class="guide-step"><div class="guide-icon">📝</div><div class="guide-text">输入数字</div></div>
             <div class="guide-line"></div>
-            <div class="guide-step">
-                <div class="guide-icon">🔓</div>
-                <div class="guide-text">解锁估值</div>
-            </div>
+            <div class="guide-step"><div class="guide-icon">🔓</div><div class="guide-text">解锁估值</div></div>
         </div>
     </div>
 
@@ -458,35 +445,38 @@
             <div id="eventContainer" class="event-list"></div>
             <button class="btn-add" onclick="addEventRow()">+ 添加节点 (如: 购车/礼物/副业)</button>
         </div>
-        <div id="lite-placeholder">
-            <div style="font-size:40px; margin-bottom:15px; opacity:0.5;">🦄</div>
-            <div style="font-weight:600; color:#9ca3af;">开启 Pro 模式</div>
-            <div style="font-size:13px; margin-top:5px;">解锁工资涨幅与人生事件模拟</div>
+        
+        <div id="lite-placeholder" onclick="toggleMode()">
+            <span style="font-size:20px;">🦄</span>
+            <span style="font-size:12px; font-weight:600;">点击开启 Pro 模式 (工资涨幅/大额收支)</span>
         </div>
     </div>
 
     <button class="btn-calc" onclick="runCalculation()">开始推演未来</button>
 
     <div class="result-panel">
-        <div class="result-item">
+        <div class="result-item" style="grid-column: 1 / 2; grid-row: 1 / 2; border-right:1px solid rgba(255,255,255,0.2);">
             <label id="resLabel1">期末名义资产</label>
             <div class="value" id="resValue1">--</div>
         </div>
-        <div class="result-item" style="border-left:1px solid rgba(255,255,255,0.2)">
+        
+        <div class="result-item" style="grid-column: 2 / 3; grid-row: 1 / 2;">
             <label id="resLabel2" style="color:#a7f3d0">实际购买力 (折现)</label>
-            <div class="real-val-group">
-                <div class="value green-text" id="resValue2">--</div>
-                <div class="cpi-control-box">
-                    <button class="cpi-btn low active" id="cpiLow" onclick="setCPI(0.5, 'low')">低0.5%</button>
-                    <button class="cpi-btn med" id="cpiMed" onclick="setCPI(2.5, 'med')">中2.5%</button>
-                    <button class="cpi-btn high" id="cpiHigh" onclick="setCPI(5.0, 'high')">高5.0%</button>
-                </div>
+            <div class="value green-text" id="resValue2">--</div>
+        </div>
+
+        <div class="result-item" style="grid-column: 1 / 2; grid-row: 2 / 3; justify-content:center;">
+            <div class="cpi-control-box">
+                <button class="cpi-btn low active" id="cpiLow" onclick="setCPI(0.5, 'low')">低0.5%</button>
+                <button class="cpi-btn med" id="cpiMed" onclick="setCPI(2.5, 'med')">中2.5%</button>
+                <button class="cpi-btn high" id="cpiHigh" onclick="setCPI(5.0, 'high')">高5.0%</button>
             </div>
         </div>
-        <div class="result-item qr-item" style="border-left:1px solid rgba(255,255,255,0.2);">
+
+        <div class="result-item" style="grid-column: 2 / 3; grid-row: 2 / 3; justify-content:center;">
             <div class="qr-container">
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://fire-sandbox.top/" alt="扫码推演" class="qr-img">
-                <label style="margin-top: 4px; font-size: 10px; color:#5b21b6; font-weight:700;">扫码手机看</label>
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://fire-sandbox.top/" alt="扫码推演" class="qr-img">
+                <label style="margin-top: 4px; font-size: 9px; color:rgba(255,255,255,0.9);">扫码手机看</label>
             </div>
         </div>
     </div>
@@ -593,12 +583,12 @@
                     amt: row.querySelector('.event-amount').value
                 });
             });
-            localStorage.setItem('wealth_sim_v44', JSON.stringify(data));
+            localStorage.setItem('wealth_sim_v45', JSON.stringify(data));
         } catch(e) {}
     }
 
     function loadData() {
-        const saved = localStorage.getItem('wealth_sim_v44');
+        const saved = localStorage.getItem('wealth_sim_v45');
         if (!saved) { updateUI(); return; }
         
         const data = JSON.parse(saved);
@@ -627,7 +617,7 @@
 
     function clearData(ask=true) {
         if(ask && !confirm('确定要清空所有数据吗？')) return;
-        localStorage.removeItem('wealth_sim_v44');
+        localStorage.removeItem('wealth_sim_v45');
         const inputs = document.querySelectorAll('input');
         inputs.forEach(i => i.value = "");
         document.getElementById('eventContainer').innerHTML = "";
@@ -876,7 +866,7 @@
 
         try {
             const ctx = safeGetEl('simChart').getContext('2d');
-            if (chartInstance) { chartInstance.destroy(); } /* 修复: 销毁实例确保不重叠 */
+            if (chartInstance) { chartInstance.destroy(); }
             
             const color = isProMode ? '#8b5cf6' : '#3b82f6';
             const bgColor = isProMode ? 'rgba(139, 92, 246, 0.1)' : 'rgba(59, 130, 246, 0.1)';
