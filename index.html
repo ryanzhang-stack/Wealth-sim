@@ -11,20 +11,20 @@
     <meta property="og:title" content="人生估值沙盘推演 | Khalid在路上">
     <meta property="og:description" content="算算你的Offer潜力，看看还要多少年财富自由？用金融思维解构你的人生。">
     <meta property="og:image" content=""> 
-    <meta property="og:url" content="https://fire-sandbox.netlify.app/">
+    <meta property="og:url" content="https://fire-sandbox.top/">
     <meta property="og:type" content="website">
 
     <script src="https://cdn.bootcdn.net/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <style>
         :root {
-            /* V21.0 生活家配色 */
+            /* 核心色板 */
             --primary-color: #8b5cf6;
             --primary-dark: #7c3aed;
             --accent-color: #f43f5e;
             --text-main: #1f2937;
             --text-light: #6b7280;
             --bg-gradient: linear-gradient(180deg, #fdf4ff 0%, #ffffff 100%);
-            --card-bg: rgba(255, 255, 255, 0.95);
+            --card-bg: rgba(255, 255, 255, 0.98);
             --btn-gradient: linear-gradient(135deg, #8b5cf6 0%, #d946ef 100%);
             --shadow-soft: 0 10px 40px -10px rgba(139, 92, 246, 0.15);
             
@@ -51,7 +51,6 @@
             backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.8); transition: all 0.3s ease;
         }
         
-        .intro-box { text-align: center; margin-bottom: 15px; }
         .emoji-header { font-size: 32px; margin-bottom: 4px; display: block; animation: float 3s ease-in-out infinite; }
         @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-6px); } 100% { transform: translateY(0px); } }
         
@@ -75,10 +74,6 @@
         }
         .ic-text { font-size: 12px; color: #4b5563; line-height: 1.3; opacity: 0.9; }
 
-        .guide-box {
-            background: #f5f3ff; border-radius: 12px; padding: 10px; margin-bottom: 10px;
-            display: flex; justify-content: space-between; align-items: center; border: 1px solid #e9d5ff;
-        }
         .guide-step { display: flex; flex-direction: column; align-items: center; gap: 4px; flex: 1; text-align: center; }
         .guide-icon { font-size: 16px; background: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         .guide-text { font-size: 11px; color: #5b21b6; font-weight: 700; }
@@ -166,6 +161,8 @@
             box-sizing: border-box; transition: all 0.2s; font-family: monospace; background: var(--input-bg);
             color: #1f2937;
         }
+        /* 修复 Bug: 虽然 type=text, 但强制弹出数字键盘 */
+        input[type="text"] { input-mode: decimal; } 
         input:focus { outline: none; border-color: #a78bfa; background: white; box-shadow: 0 0 0 4px #ede9fe; }
 
         .form-group.target-highlight input {
@@ -224,9 +221,26 @@
         
         .result-item { text-align: center; flex: 1; display: flex; flex-direction: column; align-items: center; z-index: 1; }
         .result-item label { color: rgba(255,255,255,0.85); margin-bottom: 8px; font-size: 13px; letter-spacing: 0.5px; }
-        .result-item .value { font-size: 28px; font-weight: 800; line-height: 1.1; text-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .result-item .value { font-size: 28px; font-weight: 800; line-height: 1.1; text-shadow: 0 2px 4px rgba(0,0,0,0.1); word-break: break-all; } /* 修复大数溢出 */
         .real-val-group { display: flex; flex-direction: column; align-items: center; width: 100%; }
         .green-text { color: #dcfce7; }
+
+        /* V44.0 新增：二维码优化样式 */
+        .qr-item {
+            justify-content: center; position: relative;
+        }
+        .qr-container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 4px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            display: flex; flex-direction: column; align-items: center;
+        }
+        .qr-img {
+            width: 75px; height: 75px;
+            border-radius: 4px;
+            display: block;
+        }
 
         .cpi-control-box {
             background: rgba(255,255,255,0.2); border-radius: 20px; padding: 4px;
@@ -255,7 +269,6 @@
         
         .chart-box { margin-top: 30px; height: 280px; position: relative; }
 
-        /* 折叠式说明区 */
         .glossary-box {
             margin-top: 30px; border-top: 1px dashed #e5e7eb; padding-top: 15px;
         }
@@ -297,7 +310,6 @@
         }
         .btn-share-hero:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.2); }
 
-        /* 🔥 V41.0 "博主名片" 推广卡片 */
         .xhs-promo-card {
             margin-top: 40px; padding: 20px; 
             background: #ffffff;
@@ -308,7 +320,6 @@
             display: flex; flex-direction: column; align-items: center;
         }
         
-        /* 顶部红色装饰条 */
         .xhs-promo-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 6px; background: #ff2442; }
 
         .promo-avatar {
@@ -393,9 +404,7 @@
         </div>
     </div>
 
-    <div class="scroll-hint">
-        <span>👇</span>
-    </div>
+    <div class="scroll-hint"><span>👇</span></div>
 
     <div class="header-row">
         <span class="section-label">✨ 推演模式</span>
@@ -428,36 +437,27 @@
     <div class="main-grid">
         <div>
             <div class="section-title">📊 基础参数</div>
-            <div class="form-group" id="grp_pv"><label>💰 现有资金 (本金)</label><input type="number" id="pv" placeholder="100000"></div>
-            <div class="form-group" id="grp_fv"><label>🏁 目标金额</label><input type="number" id="target_fv" placeholder="20000000"></div>
-            
-            <div id="simple_pmt_box" class="form-group" id="grp_simple_pmt"><label>📥 每月能存多少钱</label><input type="number" id="simple_pmt" placeholder="2000"></div>
-            
+            <div class="form-group" id="grp_pv"><label>💰 现有资金 (本金)</label><input type="number" inputmode="decimal" id="pv" placeholder="100000"></div>
+            <div class="form-group" id="grp_fv"><label>🏁 目标金额</label><input type="number" inputmode="decimal" id="target_fv" placeholder="20000000"></div>
+            <div id="simple_pmt_box" class="form-group" id="grp_simple_pmt"><label>📥 每月能存多少钱</label><input type="number" inputmode="decimal" id="simple_pmt" placeholder="2000"></div>
             <div id="pro_cashflow_box" style="display:none;">
-                <div class="form-group"><label style="color:var(--primary-color)">💵 月收入 (税后)</label><input type="number" id="income" placeholder="3000"></div>
-                <div class="form-group"><label style="color:var(--accent-color)">💸 月支出 (开销)</label><input type="number" id="expense" placeholder="1000"></div>
+                <div class="form-group"><label style="color:var(--primary-color)">💵 月收入 (税后)</label><input type="number" inputmode="decimal" id="income" placeholder="3000"></div>
+                <div class="form-group"><label style="color:var(--accent-color)">💸 月支出 (开销)</label><input type="number" inputmode="decimal" id="expense" placeholder="1000"></div>
             </div>
-            
-            <div class="form-group" id="grp_solved_pmt" style="display:none;">
-                <label>👉 建议每月存入</label>
-                <input type="text" id="solved_pmt" value="✨ 待计算..." disabled>
-            </div>
-
-            <div class="form-group"><label>📈 年化理财收益 (%)</label><input type="number" id="rate" placeholder="5"></div>
-            <div class="form-group" id="grp_years"><label>⏳ 奋斗时长 (年)</label><input type="number" id="years" placeholder="15"></div>
+            <div class="form-group" id="grp_solved_pmt" style="display:none;"><label>👉 建议每月存入</label><input type="text" id="solved_pmt" value="✨ 待计算..." disabled></div>
+            <div class="form-group"><label>📈 年化理财收益 (%)</label><input type="number" inputmode="decimal" id="rate" placeholder="5"></div>
+            <div class="form-group" id="grp_years"><label>⏳ 奋斗时长 (年)</label><input type="number" inputmode="decimal" id="years" placeholder="15"></div>
         </div>
-
         <div class="pro-only">
             <div class="section-title">🚀 动态增长 (Pro)</div>
             <div class="growth-inputs">
-                <div class="form-group"><label style="color:var(--primary-color)">🚀 工资年涨幅 (%)</label><input type="number" id="inc_growth" placeholder="10"></div>
-                <div class="form-group"><label style="color:var(--accent-color)">🥬 开销涨幅 (%)</label><input type="number" id="exp_growth" placeholder="3"></div>
+                <div class="form-group"><label style="color:var(--primary-color)">🚀 工资年涨幅 (%)</label><input type="number" inputmode="decimal" id="inc_growth" placeholder="10"></div>
+                <div class="form-group"><label style="color:var(--accent-color)">🥬 开销涨幅 (%)</label><input type="number" inputmode="decimal" id="exp_growth" placeholder="3"></div>
             </div>
             <div class="section-title">🚩 人生大额收支</div>
             <div id="eventContainer" class="event-list"></div>
             <button class="btn-add" onclick="addEventRow()">+ 添加节点 (如: 购车/礼物/副业)</button>
         </div>
-        
         <div id="lite-placeholder">
             <div style="font-size:40px; margin-bottom:15px; opacity:0.5;">🦄</div>
             <div style="font-weight:600; color:#9ca3af;">开启 Pro 模式</div>
@@ -483,6 +483,12 @@
                 </div>
             </div>
         </div>
+        <div class="result-item qr-item" style="border-left:1px solid rgba(255,255,255,0.2);">
+            <div class="qr-container">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://fire-sandbox.top/" alt="扫码推演" class="qr-img">
+                <label style="margin-top: 4px; font-size: 10px; color:#5b21b6; font-weight:700;">扫码手机看</label>
+            </div>
+        </div>
     </div>
 
     <div class="achievement-box" id="achievementBox">
@@ -496,43 +502,18 @@
         <summary class="glossary-summary">📖 查看：指标含义 & 财富自由门槛 (胡润)</summary>
         <div class="glossary-content">
             <div class="glossary-grid">
-                <div class="glossary-item">
-                    <b>年化收益 (%)</b>理财产品的平均年回报率。
-                    <span class="ref-val">参考: 余额宝~1-2%, 债券基金~2-4%</span>
-                </div>
-                <div class="glossary-item">
-                    <b>工资年涨幅 (%)</b>Pro模式下，每年薪资增长的速度。
-                    <span class="ref-val">参考: 职场初期~10-20%, 稳定期~3-5%</span>
-                </div>
-                <div class="glossary-item">
-                    <b>开销涨幅 (%)</b>生活成本提升速度 (含通胀+消费升级)。
-                    <span class="ref-val">参考: 3% (保守), 5% (高通胀)</span>
-                </div>
-                <div class="glossary-item">
-                    <b>实际购买力</b>扣除通胀后，这笔钱相当于今天的价值。
-                    <span class="ref-val">逻辑: 避免"货币幻觉"，反映真实生活水平</span>
-                </div>
+                <div class="glossary-item"><b>年化收益 (%)</b>理财产品的平均年回报率。<span class="ref-val">参考: 余额宝~1-2%, 债券基金~2-4%</span></div>
+                <div class="glossary-item"><b>工资年涨幅 (%)</b>Pro模式下，每年薪资增长的速度。<span class="ref-val">参考: 职场初期~10-20%, 稳定期~3-5%</span></div>
+                <div class="glossary-item"><b>开销涨幅 (%)</b>生活成本提升速度 (含通胀+消费升级)。<span class="ref-val">参考: 3% (保守), 5% (高通胀)</span></div>
+                <div class="glossary-item"><b>实际购买力</b>扣除通胀后，这笔钱相当于今天的价值。<span class="ref-val">逻辑: 避免"货币幻觉"，反映真实生活水平</span></div>
             </div>
-            
             <div class="wealth-section">
                 <b style="color:#374151; font-size:13px;">🏆 财富自由门槛 (胡润2021)</b>
                 <div class="wealth-grid">
-                    <div class="wealth-card">
-                        <span class="wealth-level">🟢 入门级</span>
-                        <div class="wealth-data">一线: 1900万<br>二线: 1200万<br>三线: 600万</div>
-                    </div>
-                    <div class="wealth-card">
-                        <span class="wealth-level">🔵 中级</span>
-                        <div class="wealth-data">一线: 6500万<br>二线: 4100万<br>三线: 1500万</div>
-                    </div>
-                    <div class="wealth-card">
-                        <span class="wealth-level">🟣 高级</span>
-                        <div class="wealth-data">一线: 1.9亿<br>二线: 1.2亿<br>三线: 6900万</div>
-                    </div>
-                    <div class="wealth-card" style="border-color: #f59e0b; background: rgba(245,158,11,0.05);">
-                        <span class="wealth-level" style="color:#d97706">👑 国际级</span>
-                        <div class="wealth-data">全球: 3.5亿<br>(顶峰目标)</div>
-                    </div>
+                    <div class="wealth-card"><span class="wealth-level">🟢 入门级</span><div class="wealth-data">一线: 1900万<br>二线: 1200万<br>三线: 600万</div></div>
+                    <div class="wealth-card"><span class="wealth-level">🔵 中级</span><div class="wealth-data">一线: 6500万<br>二线: 4100万<br>三线: 1500万</div></div>
+                    <div class="wealth-card"><span class="wealth-level">🟣 高级</span><div class="wealth-data">一线: 1.9亿<br>二线: 1.2亿<br>三线: 6900万</div></div>
+                    <div class="wealth-card" style="border-color: #f59e0b; background: rgba(245,158,11,0.05);"><span class="wealth-level" style="color:#d97706">👑 国际级</span><div class="wealth-data">全球: 3.5亿<br>(顶峰目标)</div></div>
                 </div>
             </div>
         </div>
@@ -546,17 +527,13 @@
     <div class="xhs-promo-card">
         <div class="promo-avatar">🦁</div>
         <div class="promo-header">Designed by <span>Khalid在路上</span></div>
-        <div class="promo-tags">
-            一个脑洞很大的跨境金融从业者<br>
-            分享宏观视角下的个人成长与思考吐槽
-        </div>
-        <a href="https://www.xiaohongshu.com/user/profile/57d207127fc5b80a5ba8f181?xsec_token=ABV1YdZWooJGuigvNywrRlCN8Pu00zWLQwV21BWFv07Qk%3D&xsec_source=pc_search" target="_blank" class="promo-btn">
-            🚀 点击前往小红书主页
-        </a>
+        <div class="promo-tags">一个脑洞很大的跨境金融从业者<br>分享宏观视角下的个人成长与思考吐槽</div>
+        <a href="https://www.xiaohongshu.com/user/profile/57d207127fc5b80a5ba8f181?xsec_token=ABV1YdZWooJGuigvNywrRlCN8Pu00zWLQwV21BWFv07Qk%3D&xsec_source=pc_search" target="_blank" class="promo-btn">🚀 点击前往小红书主页</a>
     </div>
 </div>
 
 <div class="footer-legal">
+    <p>© 2026 Khalid在路上. All Rights Reserved.</p>
     <p>联系邮箱: <a href="mailto:ryan.zhang@pku.org.cn">ryan.zhang@pku.org.cn</a></p>
     <p class="disclaimer">⚠️ 声明：本工具结果仅供参考，不构成投资建议。</p>
 </div>
@@ -616,12 +593,12 @@
                     amt: row.querySelector('.event-amount').value
                 });
             });
-            localStorage.setItem('wealth_sim_v41', JSON.stringify(data));
+            localStorage.setItem('wealth_sim_v44', JSON.stringify(data));
         } catch(e) {}
     }
 
     function loadData() {
-        const saved = localStorage.getItem('wealth_sim_v41');
+        const saved = localStorage.getItem('wealth_sim_v44');
         if (!saved) { updateUI(); return; }
         
         const data = JSON.parse(saved);
@@ -650,7 +627,7 @@
 
     function clearData(ask=true) {
         if(ask && !confirm('确定要清空所有数据吗？')) return;
-        localStorage.removeItem('wealth_sim_v41');
+        localStorage.removeItem('wealth_sim_v44');
         const inputs = document.querySelectorAll('input');
         inputs.forEach(i => i.value = "");
         document.getElementById('eventContainer').innerHTML = "";
@@ -835,9 +812,7 @@
                 pv, rate, years, income, expense, initNetPmt: isProMode ? undefined : initNetPmt,
                 incGrowth, expGrowth, events, usePro: isProMode
             });
-            // 修复：填回结果
             safeGetEl('target_fv').value = parseInt(res.finalBalance).toLocaleString();
-            
             showResult(res.finalBalance, res.finalReal, res.labels, res.dataNominal, res.dataReal, years, "期末总资产");
             updateAchievement(res.finalReal, years, pv);
         }
@@ -901,7 +876,8 @@
 
         try {
             const ctx = safeGetEl('simChart').getContext('2d');
-            if (chartInstance) chartInstance.destroy();
+            if (chartInstance) { chartInstance.destroy(); } /* 修复: 销毁实例确保不重叠 */
+            
             const color = isProMode ? '#8b5cf6' : '#3b82f6';
             const bgColor = isProMode ? 'rgba(139, 92, 246, 0.1)' : 'rgba(59, 130, 246, 0.1)';
 
@@ -978,7 +954,7 @@
         report += `📈 年化收益: ${lastResult.inputs.rate}% (通胀: ${currentCPI}%)\n`;
         report += `📥 投入模式: ${lastResult.inputs.pmt_desc}\n`;
         if(isProMode) report += `🚀 模式: Pro专家 (含动态增长/人生大额收支)\n`;
-        report += `\n🔗 在线推演: https://fire-sandbox.netlify.app/\n`;
+        report += `\n🔗 在线推演: https://fire-sandbox.top/\n`;
         report += `(数据由 Khalid在路上@小红书 提供支持)\n`;
         report += `联系邮箱: ryan.zhang@pku.org.cn`;
 
