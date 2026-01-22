@@ -6,7 +6,6 @@
     
     <title>人生估值沙盘推演 | Khalid在路上</title>
     <meta name="description" content="拒绝线性思维，开启上帝视角。用北大金融模型，推演你未来的无限可能。">
-    <meta name="keywords" content="复利计算器, 财富自由, 薪资规划, 职业选择, FIRE, 搞钱">
     
     <meta property="og:title" content="人生估值沙盘推演 | Khalid在路上">
     <meta property="og:description" content="算算你的Offer潜力，看看还要多少年财富自由？用金融思维解构你的人生。">
@@ -25,16 +24,11 @@
             --bg-gradient: linear-gradient(180deg, #fdf4ff 0%, #ffffff 100%);
             --card-bg: rgba(255, 255, 255, 0.98);
             --btn-gradient: linear-gradient(135deg, #8b5cf6 0%, #d946ef 100%);
-            --shadow-soft: 0 10px 40px -10px rgba(139, 92, 246, 0.15);
             
             --input-bg: #f8fafc;
             --input-border: #e2e8f0;
-            --input-tag-bg: #e0e7ff;
-            --input-tag-text: #4338ca;
             
-            --result-bg: #fff1f2;         
-            --result-border: #f43f5e;     
-            --result-text: #be123c;       
+            --result-gold: #fcd34d;
         }
 
         body {
@@ -45,35 +39,27 @@
 
         .container {
             background: var(--card-bg); width: 100%; max-width: 800px; padding: 20px 18px;
-            border-radius: 24px; box-shadow: var(--shadow-soft); margin-bottom: 20px;
+            border-radius: 24px; box-shadow: 0 10px 40px -10px rgba(139, 92, 246, 0.15); margin-bottom: 20px;
             backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.8); transition: all 0.3s ease;
         }
         
+        /* Hero */
         .hero-card {
             background: white; border: 1px solid rgba(139,92,246,0.15); 
             border-radius: 16px; padding: 15px; margin-bottom: 10px; 
             box-shadow: 0 4px 15px rgba(139,92,246,0.03); text-align: center;
         }
-
         .emoji-header { font-size: 28px; margin-bottom: 2px; display: block; animation: float 3s ease-in-out infinite; }
         @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-4px); } 100% { transform: translateY(0px); } }
-        
         h1 { 
             font-size: 20px; margin: 0 0 12px 0; color: #4c1d95; font-weight: 800; 
             background: -webkit-linear-gradient(45deg, #8b5cf6, #f43f5e);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
-        .intro-grid {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 12px;
-        }
-        .intro-card {
-            background: #f9fafb; border-radius: 8px; padding: 8px 6px; text-align: left;
-        }
-        .ic-title { 
-            font-size: 12px; font-weight: 700; color: #7c3aed; margin-bottom: 2px; 
-            display: flex; align-items: center; gap: 3px;
-        }
+        .intro-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 12px; }
+        .intro-card { background: #f9fafb; border-radius: 8px; padding: 8px 6px; text-align: left; }
+        .ic-title { font-size: 12px; font-weight: 700; color: #7c3aed; margin-bottom: 2px; display: flex; align-items: center; gap: 3px; }
         .ic-text { font-size: 10px; color: #4b5563; line-height: 1.3; opacity: 0.9; }
 
         .guide-step { display: flex; flex-direction: column; align-items: center; gap: 3px; flex: 1; text-align: center; }
@@ -81,41 +67,36 @@
         .guide-text { font-size: 10px; color: #5b21b6; font-weight: 700; }
         .guide-line { width: 15px; height: 1px; background: #ddd6fe; }
 
-        .scroll-hint {
-            text-align: center; margin-bottom: 10px; animation: bounce 2s infinite; opacity: 0.6;
-        }
+        .scroll-hint { text-align: center; margin-bottom: 10px; animation: bounce 2s infinite; opacity: 0.6; }
         .scroll-hint span { font-size: 18px; color: #8b5cf6; cursor: pointer; }
         @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-4px);} 60% {transform: translateY(-2px);} }
 
+        /* Controls - 修复对齐 */
         .header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .section-label { font-size: 15px; font-weight: 700; color: #4b5563; display: flex; align-items: center; gap: 6px; }
+        .section-label { font-size: 15px; font-weight: 700; color: #4b5563; display: flex; align-items: center; gap: 6px; line-height: 1; }
         
-        .mode-switch {
-            position: relative; width: 130px; height: 36px; background: #f3f4f6;
-            border-radius: 18px; display: flex; align-items: center; padding: 3px;
+        /* 修复 Pro 按钮对齐的核心代码 */
+        .mode-switch { 
+            position: relative; width: 130px; height: 36px; background: #f3f4f6; 
+            border-radius: 18px; display: flex; align-items: center; padding: 3px; 
             cursor: pointer; user-select: none; box-sizing: border-box;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
         }
-        .switch-slider {
-            position: absolute; left: 3px; top: 3px; width: 62px; height: 30px;
-            background: white; border-radius: 15px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1); transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            z-index: 1;
+        .switch-slider { 
+            position: absolute; left: 3px; top: 3px; width: 62px; height: 30px; 
+            background: white; border-radius: 15px; 
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1); transition: transform 0.3s; z-index: 1; 
         }
-        .mode-label {
-            flex: 1; text-align: center; font-size: 12px; font-weight: 700; color: #9ca3af;
-            z-index: 2; transition: color 0.3s; line-height: 32px;
+        .mode-label { 
+            flex: 1; text-align: center; font-size: 12px; font-weight: 700; color: #9ca3af; 
+            z-index: 2; transition: color 0.3s; 
+            line-height: 30px; /* 关键修复：与滑块高度一致 */
+            display: flex; align-items: center; justify-content: center; /* 确保文字绝对居中 */
         }
         .container.pro-mode .switch-slider { transform: translateX(62px); background: linear-gradient(135deg, #8b5cf6, #a78bfa); }
-        .container.pro-mode .mode-label.pro-text { color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.2); }
-        .container.pro-mode .mode-switch { background: #ede9fe; }
-        .container.pro-mode { border-top: 4px solid #8b5cf6; }
+        .container.pro-mode .mode-label.pro-text { color: white; }
 
         .tabs { display: flex; margin-bottom: 15px; background: #f9fafb; border-radius: 14px; padding: 3px; gap: 3px; border: 1px solid #f3f4f6; }
-        .tab { 
-            flex: 1; text-align: center; padding: 8px 2px; cursor: pointer; border-radius: 12px; 
-            transition: all 0.2s; color: #6b7280; display: flex; flex-direction: column; justify-content: center; align-items: center;
-        }
+        .tab { flex: 1; text-align: center; padding: 8px 2px; cursor: pointer; border-radius: 12px; transition: all 0.2s; color: #6b7280; display: flex; flex-direction: column; justify-content: center; align-items: center; }
         .tab-title { font-size: 13px; font-weight: 700; line-height: 1.2; }
         .tab-desc { font-size: 9px; font-weight: 400; opacity: 0.8; margin-top: 2px; transform: scale(0.95); white-space: nowrap; }
         .tab.active { background: white; color: var(--primary-color); box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
@@ -124,67 +105,20 @@
         .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         @media (max-width: 700px) { .main-grid { grid-template-columns: 1fr; gap: 10px; } }
         
-        .section-title { 
-            font-size: 14px; font-weight: 700; color: #6b7280; margin-bottom: 8px; 
-            border-bottom: 2px solid #f3f4f6; padding-bottom: 4px; display: flex; justify-content: space-between; 
-        }
-        
-        .form-group { 
-            margin-bottom: 10px; border-radius: 12px; 
-            padding: 4px; border: 2px solid transparent; 
-            transition: all 0.2s ease;
-        }
+        .section-title { font-size: 14px; font-weight: 700; color: #6b7280; margin-bottom: 8px; border-bottom: 2px solid #f3f4f6; padding-bottom: 4px; display: flex; justify-content: space-between; }
+        .form-group { margin-bottom: 10px; border-radius: 12px; padding: 4px; border: 2px solid transparent; }
         label { display: flex; align-items: center; justify-content: space-between; font-size: 13px; color: #4b5563; margin-bottom: 4px; font-weight: 600; }
         
-        .form-group.input-needed label::after {
-            content: "✎ 请输入"; font-size: 10px; background: var(--input-tag-bg); color: var(--input-tag-text);
-            padding: 1px 5px; border-radius: 6px; font-weight: 600;
-        }
+        .form-group.target-highlight { background-color: var(--result-bg) !important; border-color: var(--result-border) !important; animation: breathe 3s infinite ease-in-out; }
+        @keyframes breathe { 0%, 100% { border-color: rgba(244, 63, 94, 0.5); } 50% { border-color: rgba(244, 63, 94, 1); } }
+        .form-group.target-highlight label { color: #be123c !important; }
+        .form-group.target-highlight label::after { content: "✨ 智能计算"; font-size: 10px; background: white; color: #be123c; padding: 2px 6px; border-radius: 10px; border: 1px solid #fecdd3; }
 
-        .form-group.target-highlight {
-            background-color: var(--result-bg) !important;
-            border-color: var(--result-border) !important;
-            box-shadow: 0 4px 15px rgba(244, 63, 94, 0.15) !important;
-            animation: breathe 3s infinite ease-in-out;
-        }
-        @keyframes breathe { 
-            0%, 100% { box-shadow: 0 2px 5px rgba(244, 63, 94, 0.1); border-color: rgba(244, 63, 94, 0.5); } 
-            50% { box-shadow: 0 6px 15px rgba(244, 63, 94, 0.25); border-color: rgba(244, 63, 94, 1); } 
-        }
-
-        .form-group.target-highlight label { color: var(--result-text) !important; }
-        .form-group.target-highlight label::after {
-            content: "✨ 智能计算"; font-size: 10px; background: white; color: var(--result-text);
-            padding: 2px 6px; border-radius: 10px; font-weight: 800; border: 1px solid #fecdd3;
-        }
-
-        input {
-            width: 100%; padding: 10px; border: 2px solid #f3f4f6; border-radius: 10px; font-size: 16px; 
-            box-sizing: border-box; transition: all 0.2s; font-family: monospace; background: var(--input-bg);
-            color: #1f2937;
-        }
+        input { width: 100%; padding: 10px; border: 2px solid #f3f4f6; border-radius: 10px; font-size: 16px; box-sizing: border-box; background: var(--input-bg); color: #1f2937; }
         input[type="text"] { input-mode: decimal; } 
-        input:focus { outline: none; border-color: #a78bfa; background: white; box-shadow: 0 0 0 4px #ede9fe; }
-
-        .form-group.target-highlight input {
-            background-color: transparent !important;
-            border: none !important;
-            border-bottom: 2px dashed rgba(244, 63, 94, 0.3) !important;
-            border-radius: 0 !important;
-            color: var(--result-text) !important;
-            font-weight: 800 !important;
-            font-size: 22px !important; 
-            text-align: center !important;
-            box-shadow: none !important;
-            opacity: 1 !important;
-            -webkit-text-fill-color: var(--result-text) !important;
-            padding: 5px 0 !important;
-            cursor: default !important;
-        }
-        .form-group.target-highlight input::placeholder {
-            color: rgba(190, 18, 60, 0.4) !important; font-weight: 400 !important; 
-            font-size: 16px !important; -webkit-text-fill-color: rgba(190, 18, 60, 0.4) !important;
-        }
+        input:focus { outline: none; border-color: #a78bfa; background: white; }
+        
+        .form-group.target-highlight input { background-color: transparent !important; border: none !important; border-bottom: 2px dashed rgba(244, 63, 94, 0.3) !important; color: #be123c !important; font-weight: 800 !important; font-size: 22px !important; text-align: center !important; }
 
         .pro-only { display: none; }
         .container.pro-mode .pro-only { display: block; animation: slideDown 0.4s ease; }
@@ -194,115 +128,81 @@
         .container.pro-mode .growth-inputs { background: #f5f3ff; border-color: #ddd6fe; }
         
         .event-row { display: flex; gap: 6px; margin-bottom: 8px; align-items: center; }
-        .btn-add { 
-            background: white; border: 2px dashed #d1d5db; color: #6b7280; width: 100%; padding: 10px; 
-            border-radius: 12px; cursor: pointer; font-size: 12px; font-weight: 600; transition: all 0.2s;
-        }
-        .btn-add:hover { border-color: var(--primary-color); color: var(--primary-color); background: #f5f3ff; }
+        .btn-add { background: white; border: 2px dashed #d1d5db; color: #6b7280; width: 100%; padding: 10px; border-radius: 12px; cursor: pointer; font-size: 12px; font-weight: 600; }
         .btn-del { border:none; background:white; color:#ef4444; width:24px; height:24px; border-radius:50%; box-shadow:0 2px 4px rgba(0,0,0,0.1); cursor:pointer; display:flex; align-items:center; justify-content:center; }
 
-        .btn-calc { 
-            width: 100%; background: var(--btn-gradient); color: white; padding: 14px; border: none; 
-            border-radius: 16px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 5px; margin-bottom: 10px;
-            box-shadow: 0 8px 20px -5px rgba(139, 92, 246, 0.4);
-            transition: transform 0.1s, box-shadow 0.2s; 
-        }
-        .btn-calc:active { transform: scale(0.98); box-shadow: 0 4px 10px -2px rgba(139, 92, 246, 0.4); }
+        #lite-placeholder { text-align: center; padding: 10px; border: 1px dashed #d1d5db; border-radius: 12px; background: #f9fafb; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 15px; color: #9ca3af; cursor: pointer; }
 
-        /* 🔥 V45.0 结果面板重构：2x2 Grid 布局，解决拥挤问题 */
+        .btn-calc { width: 100%; background: linear-gradient(135deg, #8b5cf6 0%, #d946ef 100%); color: white; padding: 14px; border: none; border-radius: 16px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 5px; margin-bottom: 10px; box-shadow: 0 8px 20px -5px rgba(139, 92, 246, 0.4); transition: transform 0.1s; }
+        .btn-calc:active { transform: scale(0.98); }
+
+        /* 🔥 V49.0 结果面板：严格按照参考图左右分割 */
         .result-panel { 
             background: linear-gradient(135deg, #7c3aed 0%, #9333ea 100%); 
             color: white; padding: 20px 15px; 
             border-radius: 20px; margin-top: 15px; 
             display: grid; 
-            grid-template-columns: 1fr 1fr; 
-            grid-template-rows: auto auto;
-            gap: 15px;
+            grid-template-columns: 1fr 1px 1fr; /* 左 内容 右 */
+            gap: 10px;
             position: relative; overflow: hidden;
             box-shadow: 0 10px 25px -5px rgba(124, 58, 237, 0.4);
         }
         
-        .result-item { display: flex; flex-direction: column; align-items: center; z-index: 1; }
-        .result-item label { color: rgba(255,255,255,0.85); margin-bottom: 4px; font-size: 11px; letter-spacing: 0.5px; white-space: nowrap; }
-        .result-item .value { font-size: 22px; font-weight: 800; line-height: 1.1; text-shadow: 0 2px 4px rgba(0,0,0,0.1); word-break: break-all; text-align: center; }
-        .green-text { color: #dcfce7; }
-
-        /* V45.0 二维码样式：去白底，更融合 */
-        .qr-container {
-            background: rgba(255, 255, 255, 0.2); /* 半透明背景 */
-            backdrop-filter: blur(5px);
-            padding: 5px;
-            border-radius: 8px;
-            display: flex; flex-direction: column; align-items: center;
-            border: 1px solid rgba(255,255,255,0.3);
-        }
-        .qr-img {
-            width: 60px; height: 60px;
-            border-radius: 4px;
-            display: block;
-            mix-blend-mode: multiply; /* 正片叠底，去除白色杂边，融入背景 */
-            opacity: 0.9;
+        /* 装饰用斜光（参考图效果） */
+        .result-panel::before {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+            transform: rotate(30deg); pointer-events: none;
         }
 
+        /* 垂直分割线 */
+        .res-divider { background: rgba(255,255,255,0.2); width: 1px; height: 100%; }
+
+        /* 通用列样式 */
+        .res-col {
+            display: flex; flex-direction: column; align-items: center; justify-content: space-between; text-align: center; height: 100%; min-height: 120px;
+        }
+
+        /* 左列：名义 + 二维码 */
+        .res-label-main { color: rgba(255,255,255,0.9); font-size: 11px; margin-bottom: 4px; }
+        .res-value-main { font-size: 26px; font-weight: 800; line-height: 1.1; word-break: break-all; color: var(--result-gold); text-shadow: 0 2px 10px rgba(253, 230, 138, 0.2); margin-bottom: 8px; }
+        
+        /* 右列：实际 + 按钮 */
+        .res-label-sub { color: rgba(255,255,255,0.8); font-size: 11px; margin-bottom: 4px; }
+        .res-value-sub { font-size: 22px; font-weight: 700; color: white; word-break: break-all; margin-bottom: 8px; }
+
+        /* V49.0 二维码：真正融入背景的纯白印花 */
+        .qr-blended {
+            width: 55px; height: 55px;
+            /* 核心：反转颜色+滤色混合 = 纯白透明 */
+            filter: invert(1) !important;
+            mix-blend-mode: screen !important;
+            opacity: 0.85;
+            display: block; margin-top: auto; /* 推到底部 */
+        }
+        .qr-hint { font-size: 9px; color: rgba(255,255,255,0.6); margin-top: 2px; }
+
+        /* 按钮组 */
         .cpi-control-box {
-            background: rgba(255,255,255,0.2); border-radius: 16px; padding: 3px;
-            display: flex; width: fit-content; backdrop-filter: blur(4px);
+            background: rgba(255,255,255,0.15); border-radius: 12px; padding: 2px; 
+            display: flex; margin-top: auto; /* 推到底部 */
         }
-        .cpi-btn {
-            background: transparent; border: none; color: rgba(255,255,255,0.8);
-            font-size: 10px; padding: 4px 8px; cursor: pointer; border-radius: 12px;
-            transition: all 0.2s; font-weight: 600;
-        }
-        .cpi-btn.active.low, .cpi-btn.active.med, .cpi-btn.active.high { 
-            background: rgba(255,255,255,0.95); color: #7c3aed; 
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
+        .cpi-btn { background: transparent; border: none; color: rgba(255,255,255,0.7); font-size: 9px; padding: 4px 8px; cursor: pointer; border-radius: 10px; font-weight: 600; }
+        .cpi-btn.active { background: rgba(255,255,255,0.95); color: #7c3aed; }
 
-        /* V45.0 Pro占位符：压扁成横幅，节省空间 */
-        #lite-placeholder { 
-            text-align: center; 
-            padding: 10px; 
-            border: 1px dashed #d1d5db; 
-            border-radius: 12px; 
-            background: #f9fafb; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            gap: 10px;
-            margin-top: 15px;
-            color: #9ca3af;
-            cursor: pointer;
-        }
-        #lite-placeholder:active { background: #f3f4f6; }
-
-        .achievement-box {
-            background: #fffbeb; border: 1px solid #fcd34d; border-left: 4px solid #f59e0b;
-            padding: 15px; margin-top: 20px; border-radius: 12px; display: none;
-            position: relative; overflow: hidden;
-        }
+        .achievement-box { background: #fffbeb; border: 1px solid #fcd34d; border-left: 4px solid #f59e0b; padding: 15px; margin-top: 20px; border-radius: 12px; display: none; position: relative; overflow: hidden; }
         .achievement-box::after { content: '🏆'; position: absolute; right: -10px; bottom: -10px; font-size: 80px; opacity: 0.1; transform: rotate(-20deg); }
         .achievement-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
         .achievement-badge { background: #f59e0b; color: white; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 12px; }
         .achievement-title { font-size: 16px; font-weight: 800; color: #92400e; }
         .achievement-text { font-size: 13px; color: #b45309; line-height: 1.5; }
         
-        .chart-box { margin-top: 25px; height: 250px; position: relative; }
+        .chart-box { margin-top: 25px; height: 250px; position: relative; min-height: 250px; }
 
-        .glossary-box {
-            margin-top: 25px; border-top: 1px dashed #e5e7eb; padding-top: 15px;
-        }
-        .glossary-summary {
-            font-size: 13px; font-weight: 700; color: #6b7280; cursor: pointer;
-            padding: 10px; background: #f9fafb; border-radius: 10px; list-style: none;
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        .glossary-summary::after { content: '+'; font-weight: bold; }
-        details[open] .glossary-summary::after { content: '-'; }
-        
+        .glossary-box { margin-top: 25px; border-top: 1px dashed #e5e7eb; padding-top: 15px; }
+        .glossary-summary { font-size: 13px; font-weight: 700; color: #6b7280; cursor: pointer; padding: 10px; background: #f9fafb; border-radius: 10px; list-style: none; display: flex; justify-content: space-between; align-items: center; }
         .glossary-content { padding-top: 15px; animation: fadeIn 0.5s; }
-        
         .glossary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
-        
         .glossary-item { font-size: 12px; color: #6b7280; line-height: 1.5; background: #f9fafb; padding: 10px; border-radius: 10px; }
         .glossary-item b { color: var(--primary-dark); display: block; margin-bottom: 2px; }
         .ref-val { color: #f43f5e; font-size: 11px; display: block; margin-top: 4px; font-weight: 500; }
@@ -314,51 +214,16 @@
         .wealth-data { font-size: 11px; color: #4b5563; line-height: 1.5; }
 
         .action-bar { margin-top: 25px; display: flex; justify-content: center; gap: 10px; }
-        .btn-reset { 
-            background: white; border: 1px solid #e5e7eb; color: #94a3b8; 
-            font-size: 13px; padding: 10px 20px; border-radius: 20px; cursor: pointer; transition: all 0.2s;
-        }
-        .btn-reset:hover { border-color: #f43f5e; color: #f43f5e; }
-        
-        .btn-share-hero {
-            background: #1f2937; color: white; border: none; font-size: 13px; font-weight: 600;
-            padding: 10px 20px; border-radius: 20px; cursor: pointer; 
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 6px;
-            transition: transform 0.2s;
-        }
-        .btn-share-hero:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.2); }
+        .btn-reset { background: white; border: 1px solid #e5e7eb; color: #94a3b8; font-size: 13px; padding: 10px 20px; border-radius: 20px; cursor: pointer; transition: all 0.2s; }
+        .btn-share-hero { background: #1f2937; color: white; border: none; font-size: 13px; font-weight: 600; padding: 10px 20px; border-radius: 20px; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 6px; transition: transform 0.2s; }
 
-        .xhs-promo-card {
-            margin-top: 30px; padding: 20px; 
-            background: #ffffff;
-            border-radius: 20px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
-            border: 1px solid rgba(0, 0, 0, 0.03);
-            text-align: center; position: relative; overflow: hidden;
-            display: flex; flex-direction: column; align-items: center;
-        }
+        .xhs-promo-card { margin-top: 30px; padding: 20px; background: #ffffff; border-radius: 20px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05); border: 1px solid rgba(0, 0, 0, 0.03); text-align: center; position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: center; }
         .xhs-promo-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 6px; background: #ff2442; }
-
-        .promo-avatar {
-            font-size: 36px; margin-top: 5px; margin-bottom: 8px;
-            width: 50px; height: 50px; background: #fff5f6;
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            border: 2px solid #ff2442;
-        }
-
+        .promo-avatar { font-size: 36px; margin-top: 5px; margin-bottom: 8px; width: 50px; height: 50px; background: #fff5f6; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid #ff2442; }
         .promo-header { font-size: 15px; color: #1f2937; font-weight: 800; margin-bottom: 6px; }
         .promo-header span { color: #ff2442; }
         .promo-tags { font-size: 12px; color: #6b7280; line-height: 1.6; margin-bottom: 15px; max-width: 95%; }
-        
-        .promo-btn {
-            width: 100%; max-width: 220px;
-            background: #ff2442; color: white; 
-            text-decoration: none; padding: 10px 0; border-radius: 30px;
-            font-size: 13px; font-weight: 700; 
-            box-shadow: 0 4px 15px rgba(255, 36, 66, 0.3);
-            transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px;
-        }
-        .promo-btn:active { transform: scale(0.96); box-shadow: 0 2px 6px rgba(255, 36, 66, 0.2); }
+        .promo-btn { width: 100%; max-width: 220px; background: #ff2442; color: white; text-decoration: none; padding: 10px 0; border-radius: 30px; font-size: 13px; font-weight: 700; box-shadow: 0 4px 15px rgba(255, 36, 66, 0.3); transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px; }
 
         .footer-legal { text-align: center; margin-top: 30px; padding-bottom: 30px; color: #9ca3af; }
         .footer-legal p { margin: 4px 0; font-size: 11px; }
@@ -372,16 +237,13 @@
     <div class="hero-card">
         <span class="emoji-header">🔮</span>
         <h1>人生估值沙盘推演</h1>
-        
         <div class="intro-grid">
             <div class="intro-card"><div class="ic-title">🎓 Offer选择</div><div class="ic-text">不同的轨道，不同的人生估值曲线？</div></div>
             <div class="intro-card"><div class="ic-title">🌱 理财初尝</div><div class="ic-text">还要多少年才能财富自由？</div></div>
             <div class="intro-card"><div class="ic-title">⏰ 打工鸡汤</div><div class="ic-text">别高估1个月的努力，低估10年的复利。</div></div>
             <div class="intro-card"><div class="ic-title">📈 投资策略</div><div class="ic-text">如何锚定合适的年化收益率区间？</div></div>
         </div>
-
         <div style="height:1px; background:#f3f4f6; margin:10px 0; width:100%;"></div>
-
         <div style="display:flex; justify-content:space-between; align-items:center; padding:0 5px;">
             <div class="guide-step"><div class="guide-icon">🎯</div><div class="guide-text">设定目标</div></div>
             <div class="guide-line"></div>
@@ -455,28 +317,28 @@
     <button class="btn-calc" onclick="runCalculation()">开始推演未来</button>
 
     <div class="result-panel">
-        <div class="result-item" style="grid-column: 1 / 2; grid-row: 1 / 2; border-right:1px solid rgba(255,255,255,0.2);">
-            <label id="resLabel1">期末名义资产</label>
-            <div class="value" id="resValue1">--</div>
-        </div>
-        
-        <div class="result-item" style="grid-column: 2 / 3; grid-row: 1 / 2;">
-            <label id="resLabel2" style="color:#a7f3d0">实际购买力 (折现)</label>
-            <div class="value green-text" id="resValue2">--</div>
+        <div class="res-col">
+            <div>
+                <label class="res-label-main">期末名义资产 (账面)</label>
+                <div class="res-value-main" id="resValue1">--</div>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:center;">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://fire-sandbox.top/&v=3" class="qr-blended" alt="扫码">
+                <span class="qr-hint">扫码分享</span>
+            </div>
         </div>
 
-        <div class="result-item" style="grid-column: 1 / 2; grid-row: 2 / 3; justify-content:center;">
+        <div class="res-divider"></div>
+
+        <div class="res-col">
+            <div>
+                <label class="res-label-sub">实际购买力 (折现)</label>
+                <div class="res-value-sub" id="resValue2">--</div>
+            </div>
             <div class="cpi-control-box">
                 <button class="cpi-btn low active" id="cpiLow" onclick="setCPI(0.5, 'low')">低0.5%</button>
                 <button class="cpi-btn med" id="cpiMed" onclick="setCPI(2.5, 'med')">中2.5%</button>
                 <button class="cpi-btn high" id="cpiHigh" onclick="setCPI(5.0, 'high')">高5.0%</button>
-            </div>
-        </div>
-
-        <div class="result-item" style="grid-column: 2 / 3; grid-row: 2 / 3; justify-content:center;">
-            <div class="qr-container">
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://fire-sandbox.top/" alt="扫码推演" class="qr-img">
-                <label style="margin-top: 4px; font-size: 9px; color:rgba(255,255,255,0.9);">扫码手机看</label>
             </div>
         </div>
     </div>
@@ -583,12 +445,12 @@
                     amt: row.querySelector('.event-amount').value
                 });
             });
-            localStorage.setItem('wealth_sim_v45', JSON.stringify(data));
+            localStorage.setItem('wealth_sim_v49', JSON.stringify(data));
         } catch(e) {}
     }
 
     function loadData() {
-        const saved = localStorage.getItem('wealth_sim_v45');
+        const saved = localStorage.getItem('wealth_sim_v49');
         if (!saved) { updateUI(); return; }
         
         const data = JSON.parse(saved);
@@ -617,7 +479,7 @@
 
     function clearData(ask=true) {
         if(ask && !confirm('确定要清空所有数据吗？')) return;
-        localStorage.removeItem('wealth_sim_v45');
+        localStorage.removeItem('wealth_sim_v49');
         const inputs = document.querySelectorAll('input');
         inputs.forEach(i => i.value = "");
         document.getElementById('eventContainer').innerHTML = "";
@@ -771,88 +633,89 @@
     }
 
     function runCalculation() {
-        let events = {};
-        if (isProMode) {
-            document.querySelectorAll('.event-row').forEach(row => {
-                const y = parseInt(row.querySelector('.event-year').value);
-                const amt = parseFloat(row.querySelector('.event-amount').value);
-                if (y && !isNaN(amt)) {
-                    if (!events[y]) events[y] = 0;
-                    events[y] += amt;
+        try {
+            let events = {};
+            if (isProMode) {
+                document.querySelectorAll('.event-row').forEach(row => {
+                    const y = parseInt(row.querySelector('.event-year').value);
+                    const amt = parseFloat(row.querySelector('.event-amount').value);
+                    if (y && !isNaN(amt)) {
+                        if (!events[y]) events[y] = 0;
+                        events[y] += amt;
+                    }
+                });
+            }
+
+            const rate = getVal('rate', 'rate') / 100;
+            const incGrowth = getVal('inc_growth', 'inc_growth') / 100;
+            const expGrowth = getVal('exp_growth', 'exp_growth') / 100;
+
+            lastResult.inputs = {
+                pv: getRawVal('pv'), rate: getRawVal('rate'), years: getRawVal('years'),
+                pmt_desc: isProMode ? `收入${getRawVal('income')}/支出${getRawVal('expense')}` : `月存${getRawVal('simple_pmt')}`
+            };
+
+            let res;
+            if (currentTab === 'fv') {
+                const pv = getVal('pv', 'pv'); const years = getVal('years', 'years');
+                let income = 0, expense = 0, initNetPmt = 0;
+                if (isProMode) { income = getVal('income', 'income'); expense = getVal('expense', 'expense'); }
+                else { initNetPmt = getVal('simple_pmt', 'simple_pmt'); }
+
+                res = simulate({
+                    pv, rate, years, income, expense, initNetPmt: isProMode ? undefined : initNetPmt,
+                    incGrowth, expGrowth, events, usePro: isProMode
+                });
+                safeGetEl('target_fv').value = parseInt(res.finalBalance).toLocaleString();
+                
+            } else if (currentTab === 'pmt') {
+                const pv = getVal('pv', 'pv'); const target = getVal('target_fv', 'target_fv'); const years = getVal('years', 'years');
+                let low = -10000000, high = 10000000, sol = 0;
+                for(let i=0; i<40; i++) {
+                    let mid = (low + high) / 2;
+                    let r = simulate({ pv, rate, years, initNetPmt: mid, incGrowth, expGrowth, events, usePro: isProMode, isSimplePmtMode: true });
+                    if (r.finalBalance < target) low = mid; else high = mid; sol = mid;
                 }
-            });
-        }
+                safeGetEl('solved_pmt').value = Math.round(sol).toLocaleString();
+                res = simulate({ pv, rate, years, initNetPmt: sol, incGrowth, expGrowth, events, usePro: isProMode, isSimplePmtMode: true });
 
-        const rate = getVal('rate', 'rate') / 100;
-        const incGrowth = getVal('inc_growth', 'inc_growth') / 100;
-        const expGrowth = getVal('exp_growth', 'exp_growth') / 100;
+            } else if (currentTab === 'pv') {
+                const target = getVal('target_fv', 'target_fv'); const years = getVal('years', 'years');
+                let income = 0, expense = 0, initNetPmt = 0;
+                if (isProMode) { income = getVal('income', 'income'); expense = getVal('expense', 'expense'); }
+                else { initNetPmt = getVal('simple_pmt', 'simple_pmt'); }
+                let low = -100000000, high = 100000000, sol = 0;
+                for(let i=0; i<40; i++) {
+                    let mid = (low + high) / 2;
+                    let r = simulate({ pv: mid, rate, years, income, expense, initNetPmt: isProMode ? undefined : initNetPmt, incGrowth, expGrowth, events, usePro: isProMode });
+                    if (r.finalBalance < target) low = mid; else high = mid; sol = mid;
+                }
+                safeGetEl('pv').value = Math.round(sol).toLocaleString();
+                res = simulate({ pv: sol, rate, years, income, expense, initNetPmt: isProMode ? undefined : initNetPmt, incGrowth, expGrowth, events, usePro: isProMode });
 
-        lastResult.inputs = {
-            pv: getRawVal('pv'), rate: getRawVal('rate'), years: getRawVal('years'),
-            pmt_desc: isProMode ? `收入${getRawVal('income')}/支出${getRawVal('expense')}` : `月存${getRawVal('simple_pmt')}`
-        };
-
-        if (currentTab === 'fv') {
-            const pv = getVal('pv', 'pv'); const years = getVal('years', 'years');
-            let income = 0, expense = 0, initNetPmt = 0;
-            if (isProMode) { income = getVal('income', 'income'); expense = getVal('expense', 'expense'); }
-            else { initNetPmt = getVal('simple_pmt', 'simple_pmt'); }
-
-            const res = simulate({
-                pv, rate, years, income, expense, initNetPmt: isProMode ? undefined : initNetPmt,
-                incGrowth, expGrowth, events, usePro: isProMode
-            });
-            safeGetEl('target_fv').value = parseInt(res.finalBalance).toLocaleString();
-            showResult(res.finalBalance, res.finalReal, res.labels, res.dataNominal, res.dataReal, years, "期末总资产");
-            updateAchievement(res.finalReal, years, pv);
-        }
-        else if (currentTab === 'pmt') {
-            const pv = getVal('pv', 'pv'); const target = getVal('target_fv', 'target_fv'); const years = getVal('years', 'years');
-            let low = -10000000, high = 10000000, sol = 0;
-            for(let i=0; i<40; i++) {
-                let mid = (low + high) / 2;
-                let res = simulate({ pv, rate, years, initNetPmt: mid, incGrowth, expGrowth, events, usePro: isProMode, isSimplePmtMode: true });
-                if (res.finalBalance < target) low = mid; else high = mid; sol = mid;
+            } else if (currentTab === 'years') {
+                const pv = getVal('pv', 'pv'); const target = getVal('target_fv', 'target_fv');
+                let income = 0, expense = 0, initNetPmt = 0;
+                if (isProMode) { income = getVal('income', 'income'); expense = getVal('expense', 'expense'); }
+                else { initNetPmt = getVal('simple_pmt', 'simple_pmt'); }
+                let y = 0;
+                for(y=1; y<=100; y++) {
+                    res = simulate({ pv, rate, years: y, income, expense, initNetPmt: isProMode ? undefined : initNetPmt, incGrowth, expGrowth, events, usePro: isProMode });
+                    if (res.finalBalance >= target) break;
+                }
+                safeGetEl('years').value = y;
+                // res is already the final result
             }
-            safeGetEl('solved_pmt').value = Math.round(sol).toLocaleString();
-            lastResult.inputs.pmt_desc = `建议月存${Math.round(sol)}`;
-            const finalRes = simulate({ pv, rate, years, initNetPmt: sol, incGrowth, expGrowth, events, usePro: isProMode, isSimplePmtMode: true });
-            showResult(target, finalRes.finalReal, finalRes.labels, finalRes.dataNominal, finalRes.dataReal, years, "目标达成");
-            updateAchievement(finalRes.finalReal, years, pv);
-        }
-        else if (currentTab === 'pv') {
-            const target = getVal('target_fv', 'target_fv'); const years = getVal('years', 'years');
-            let income = 0, expense = 0, initNetPmt = 0;
-            if (isProMode) { income = getVal('income', 'income'); expense = getVal('expense', 'expense'); }
-            else { initNetPmt = getVal('simple_pmt', 'simple_pmt'); }
-            let low = -100000000, high = 100000000, sol = 0;
-            for(let i=0; i<40; i++) {
-                let mid = (low + high) / 2;
-                let res = simulate({ pv: mid, rate, years, income, expense, initNetPmt: isProMode ? undefined : initNetPmt, incGrowth, expGrowth, events, usePro: isProMode });
-                if (res.finalBalance < target) low = mid; else high = mid; sol = mid;
+
+            if(res) {
+                showResult(res.finalBalance, res.finalReal, res.labels, res.dataNominal, res.dataReal, getVal('years','years'), "期末总资产");
+                updateAchievement(res.finalReal, getVal('years','years'), getVal('pv','pv'));
             }
-            safeGetEl('pv').value = Math.round(sol).toLocaleString();
-            lastResult.inputs.pv = Math.round(sol);
-            const finalRes = simulate({ pv: sol, rate, years, income, expense, initNetPmt: isProMode ? undefined : initNetPmt, incGrowth, expGrowth, events, usePro: isProMode });
-            showResult(target, finalRes.finalReal, finalRes.labels, finalRes.dataNominal, finalRes.dataReal, years, "目标达成");
-            updateAchievement(finalRes.finalReal, years, sol);
+            saveData();
+        } catch(e) {
+            console.error("Calculation Error:", e);
+            alert("计算出现错误，请检查输入数值");
         }
-        else if (currentTab === 'years') {
-            const pv = getVal('pv', 'pv'); const target = getVal('target_fv', 'target_fv');
-            let income = 0, expense = 0, initNetPmt = 0;
-            if (isProMode) { income = getVal('income', 'income'); expense = getVal('expense', 'expense'); }
-            else { initNetPmt = getVal('simple_pmt', 'simple_pmt'); }
-            let y = 0, finalRes = null;
-            for(y=1; y<=100; y++) {
-                finalRes = simulate({ pv, rate, years: y, income, expense, initNetPmt: isProMode ? undefined : initNetPmt, incGrowth, expGrowth, events, usePro: isProMode });
-                if (finalRes.finalBalance >= target) break;
-            }
-            safeGetEl('years').value = y;
-            lastResult.inputs.years = y;
-            showResult(finalRes.finalBalance, finalRes.finalReal, finalRes.labels, finalRes.dataNominal, finalRes.dataReal, y, "最终达成");
-            updateAchievement(finalRes.finalReal, y, pv);
-        }
-        saveData();
     }
 
     function showResult(nominalVal, realVal, labels, dataNominal, dataReal, years, labelText) {
@@ -860,9 +723,8 @@
         lastResult.realVal = realVal;
         lastResult.years = years;
         
-        safeGetEl('resLabel1').innerText = labelText;
-        safeGetEl('resValue1').innerText = parseInt(nominalVal).toLocaleString();
-        safeGetEl('resValue2').innerText = parseInt(realVal).toLocaleString();
+        safeGetEl('resValue1').innerText = parseInt(nominalVal || 0).toLocaleString();
+        safeGetEl('resValue2').innerText = parseInt(realVal || 0).toLocaleString();
 
         try {
             const ctx = safeGetEl('simChart').getContext('2d');
@@ -897,7 +759,7 @@
                     }
                 }
             });
-        } catch(e) {}
+        } catch(e) { console.error("Chart Error:", e); }
     }
 
     function updateAchievement(val, years) {
